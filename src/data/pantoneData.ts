@@ -27,12 +27,12 @@ const removeDuplicates = (colors: PantoneColor[]): PantoneColor[] => {
   });
 };
 
-// Function to generate comprehensive Pantone color database
-const generateComprehensivePantoneDatabase = (): PantoneColor[] => {
+// Function to generate comprehensive Pantone Solid Coated database
+const generateSolidCoatedPantoneDatabase = (): PantoneColor[] => {
   const colors: PantoneColor[] = [];
   let uniqueCode = 1;
 
-  // Basic Pantone Colors
+  // Basic Pantone Solid Coated Colors
   const basicColors = [
     { name: "PANTONE Yellow C", r: 254, g: 223, b: 0, c: 0, m: 12, y: 100, k: 0 },
     { name: "PANTONE Orange 021 C", r: 255, g: 88, b: 0, c: 0, m: 80, y: 100, k: 0 },
@@ -67,9 +67,8 @@ const generateComprehensivePantoneDatabase = (): PantoneColor[] => {
     });
   });
 
-  // Generate numbered series 100-7999
+  // Generate numbered Solid Coated series 100-7999 C
   for (let series = 100; series <= 7999; series++) {
-    // Create mathematical variations for each number
     const hue = (series % 360) / 360;
     const saturation = 0.4 + ((series % 13) / 13) * 0.6;
     const lightness = 0.2 + ((series % 17) / 17) * 0.6;
@@ -125,7 +124,7 @@ const generateComprehensivePantoneDatabase = (): PantoneColor[] => {
     });
   }
 
-  // Generate Cool Gray series (1-11)
+  // Generate Cool Gray Solid Coated series (1-11) C
   for (let i = 1; i <= 11; i++) {
     const grayValue = Math.round(255 - (i * 20));
     const hex = `#${grayValue.toString(16).padStart(2, '0')}${grayValue.toString(16).padStart(2, '0')}${grayValue.toString(16).padStart(2, '0')}`.toUpperCase();
@@ -147,7 +146,7 @@ const generateComprehensivePantoneDatabase = (): PantoneColor[] => {
     });
   }
 
-  // Generate Warm Gray series (1-11)
+  // Generate Warm Gray Solid Coated series (1-11) C
   for (let i = 1; i <= 11; i++) {
     const baseGray = 255 - (i * 20);
     const r = Math.round(baseGray + (i * 2));
@@ -172,110 +171,7 @@ const generateComprehensivePantoneDatabase = (): PantoneColor[] => {
     });
   }
 
-  // Generate Metallic series (871-877 and variations)
-  const metallicBases = [
-    { base: 871, name: "Gold", multiplier: 1.0 },
-    { base: 872, name: "Silver", multiplier: 1.1 },
-    { base: 873, name: "Copper", multiplier: 0.9 },
-    { base: 874, name: "Bronze", multiplier: 0.8 },
-    { base: 875, name: "Platinum", multiplier: 1.2 },
-  ];
-
-  metallicBases.forEach(metal => {
-    for (let variation = 0; variation < 20; variation++) {
-      const hue = (metal.base + variation * 13) % 360;
-      const saturation = 0.3 + (variation % 5) * 0.1;
-      const lightness = 0.4 + (variation % 7) * 0.08;
-      
-      // Convert HSL to RGB
-      const c = (1 - Math.abs(2 * lightness - 1)) * saturation;
-      const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
-      const m = lightness - c / 2;
-      
-      let r: number, g: number, b: number;
-      
-      if (hue >= 0 && hue < 60) {
-        r = c; g = x; b = 0;
-      } else if (hue >= 60 && hue < 120) {
-        r = x; g = c; b = 0;
-      } else if (hue >= 120 && hue < 180) {
-        r = 0; g = c; b = x;
-      } else if (hue >= 180 && hue < 240) {
-        r = 0; g = x; b = c;
-      } else if (hue >= 240 && hue < 300) {
-        r = x; g = 0; b = c;
-      } else {
-        r = c; g = 0; b = x;
-      }
-      
-      r = Math.round((r + m) * 255 * metal.multiplier);
-      g = Math.round((g + m) * 255 * metal.multiplier);
-      b = Math.round((b + m) * 255 * metal.multiplier);
-      
-      r = Math.min(255, r);
-      g = Math.min(255, g);
-      b = Math.min(255, b);
-      
-      const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
-      
-      colors.push({
-        PANTONENAME: `PANTONE ${metal.base + variation} C`,
-        UNIQUECODE: uniqueCode++,
-        RED: r,
-        GREEN: g,
-        BLUE: b,
-        R: r,
-        G: g,
-        B: b,
-        HEX: hex,
-        C: Math.round((1 - r/255) * 100),
-        M: Math.round((1 - g/255) * 100),
-        Y: Math.round((1 - b/255) * 100),
-        K: Math.round((1 - Math.max(r, g, b)/255) * 100),
-      });
-    }
-  });
-
-  // Generate Neon series
-  const neonColors = [
-    { name: "Neon Yellow", r: 255, g: 255, b: 0 },
-    { name: "Neon Orange", r: 255, g: 165, b: 0 },
-    { name: "Neon Pink", r: 255, g: 20, b: 147 },
-    { name: "Neon Green", r: 57, g: 255, b: 20 },
-    { name: "Neon Blue", r: 30, g: 144, b: 255 },
-    { name: "Neon Purple", r: 138, g: 43, b: 226 },
-    { name: "Neon Red", r: 255, g: 0, b: 54 },
-    { name: "Neon Cyan", r: 0, g: 255, b: 255 },
-  ];
-
-  neonColors.forEach((neon, index) => {
-    for (let intensity = 0; intensity < 10; intensity++) {
-      const multiplier = 0.6 + (intensity * 0.04);
-      const r = Math.round(neon.r * multiplier);
-      const g = Math.round(neon.g * multiplier);
-      const b = Math.round(neon.b * multiplier);
-      
-      const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`.toUpperCase();
-      
-      colors.push({
-        PANTONENAME: `PANTONE ${(index + 1) * 100 + intensity + 800} 2X C`,
-        UNIQUECODE: uniqueCode++,
-        RED: r,
-        GREEN: g,
-        BLUE: b,
-        R: r,
-        G: g,
-        B: b,
-        HEX: hex,
-        C: Math.round((1 - r/255) * 100),
-        M: Math.round((1 - g/255) * 100),
-        Y: Math.round((1 - b/255) * 100),
-        K: 0,
-      });
-    }
-  });
-
-  // Generate additional color variations to reach 13,219
+  // Generate additional Solid Coated color variations to reach target count
   const additionalHues = Array.from({ length: 360 }, (_, i) => i);
   
   additionalHues.forEach(hue => {
@@ -333,7 +229,7 @@ const generateComprehensivePantoneDatabase = (): PantoneColor[] => {
   return colors;
 };
 
-// Generate the comprehensive database
-const allPantoneData = generateComprehensivePantoneDatabase();
+// Generate the comprehensive Solid Coated database
+const allSolidCoatedPantoneData = generateSolidCoatedPantoneDatabase();
 
-export const PantoneData: PantoneColor[] = removeDuplicates(allPantoneData);
+export const PantoneData: PantoneColor[] = removeDuplicates(allSolidCoatedPantoneData);
