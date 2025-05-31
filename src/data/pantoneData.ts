@@ -1,4 +1,3 @@
-
 export interface PantoneColor {
   PANTONENAME: string;
   UNIQUECODE: number;
@@ -15,8 +14,16 @@ export interface PantoneColor {
   K: number;
 }
 
-// Real Pantone Solid Coated colors with accurate color values
+// Complete Pantone Solid Coated colors database
 export const PantoneData: PantoneColor[] = [
+  {"PANTONENAME":"PANTONE 10101 C","UNIQUECODE":10003,"RED":85,"GREEN":0,"BLUE":0,"R":212,"G":212,"B":212,"HEX":"#d4d4d4","C":0.0,"M":0.0,"Y":0.0,"K":16.8},
+  {"PANTONENAME":"PANTONE 10102 C","UNIQUECODE":10004,"RED":80,"GREEN":-2,"BLUE":0,"R":194,"G":200,"B":198,"HEX":"#c2c7c6","C":2.6,"M":0.0,"Y":0.6,"K":21.8},
+  {"PANTONENAME":"PANTONE 10103 C","UNIQUECODE":10005,"RED":76,"GREEN":-1,"BLUE":0,"R":185,"G":188,"B":187,"HEX":"#b9bbbb","C":1.4,"M":0.0,"Y":0.3,"K":26.3},
+  {"PANTONENAME":"PANTONE 10104 C","UNIQUECODE":10006,"RED":72,"GREEN":-1,"BLUE":-2,"R":173,"G":177,"B":180,"HEX":"#acb1b4","C":4.0,"M":1.6,"Y":0.0,"K":29.4},
+  {"PANTONENAME":"PANTONE 10105 C","UNIQUECODE":10007,"RED":71,"GREEN":-1,"BLUE":-1,"R":171,"G":174,"B":175,"HEX":"#aaaeaf","C":2.6,"M":0.6,"Y":0.0,"K":31.2},
+  {"PANTONENAME":"PANTONE 10106 C","UNIQUECODE":10008,"RED":69,"GREEN":-6,"BLUE":27,"R":176,"G":170,"B":119,"HEX":"#afaa77","C":0.0,"M":3.1,"Y":32.1,"K":31.1},
+  {"PANTONENAME":"PANTONE 10107 C","UNIQUECODE":10009,"RED":69,"GREEN":-8,"BLUE":37,"R":177,"G":171,"B":100,"HEX":"#b1aa64","C":0.0,"M":3.5,"Y":43.3,"K":30.6},
+  {"PANTONENAME":"PANTONE 10108 C","UNIQUECODE":10010,"RED":69,"GREEN":-8,"BLUE":46,"R":181,"G":171,"B":83,"HEX":"#b4aa52","C":0.0,"M":5.6,"Y":54.3,"K":29.1},
   // Basic Pantone Colors
   {
     PANTONENAME: "PANTONE Yellow C",
