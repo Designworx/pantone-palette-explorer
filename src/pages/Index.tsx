@@ -12,7 +12,7 @@ const Index = () => {
     if (!searchTerm) return PantoneData;
     
     return PantoneData.filter(color =>
-      color.name.toLowerCase().includes(searchTerm.toLowerCase())
+      color.PANTONENAME.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm]);
 
