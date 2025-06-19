@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import { PantoneColor } from '@/data/pantoneData';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Star, Download, Copy, Palette } from 'lucide-react';
+import { Heart, Download, Copy, Palette } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { usePalette } from '@/hooks/usePalette';
 import { generateTints, findNearestPantones } from '@/utils/pantoneUtils';
@@ -102,10 +101,10 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
               onClick={toggleSaved}
               size="sm"
             >
-              <Star className={`h-4 w-4 ${isSaved(color.PANTONENAME) ? 'fill-current' : ''}`} />
+              <Heart className={`h-4 w-4 ${isSaved(color.PANTONENAME) ? 'fill-current' : ''}`} />
             </Button>
-            <Button variant="outline" onClick={onClose} size="sm">
-              ×
+            <Button variant="outline" onClick={onClose} size="lg" className="h-10 w-10 p-0">
+              <span className="text-xl">×</span>
             </Button>
           </div>
         </div>

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Bookmark } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { PantoneColor } from '@/data/pantoneData';
 import { usePalette } from '@/hooks/usePalette';
@@ -77,7 +77,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         className="h-32 w-full relative transition-all duration-300"
         style={{ backgroundColor: color.HEX }}
       >
-        {/* Bookmark button with enhanced visibility */}
+        {/* Heart button with enhanced visibility */}
         <Button
           variant="ghost"
           size="sm"
@@ -92,7 +92,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           onMouseDown={(e) => e.stopPropagation()}
           title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
         >
-          <Bookmark 
+          <Heart 
             className={`h-4 w-4 transition-all duration-200 ${
               colorIsSaved ? 'fill-current scale-110' : ''
             }`} 
@@ -127,7 +127,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             {color.PANTONENAME}
           </h3>
           {colorIsSaved && (
-            <Bookmark className="h-4 w-4 text-blue-600 fill-current ml-2" />
+            <Heart className="h-4 w-4 text-red-600 fill-current ml-2" />
           )}
         </div>
         
