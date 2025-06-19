@@ -118,17 +118,27 @@ export const AdvancedSearch = ({
                 <p>Find closest Pantone matches for hex color</p>
               </TooltipContent>
             </Tooltip>
-            <div className="flex gap-2 flex-1">
+            <div className="flex flex-1">
               <Input
                 type="text"
-                placeholder="#FF0000"
+                placeholder="Enter hex color (#FF0000)"
                 value={hexInput}
                 onChange={(e) => setHexInput(e.target.value)}
-                className="h-10"
+                className="h-10 rounded-r-none border-r-0 focus:z-10"
               />
-              <Button onClick={handleFindNearest} className="h-10 px-3">
-                <Palette className="h-4 w-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    onClick={handleFindNearest} 
+                    className="h-10 px-3 rounded-l-none border-l-0"
+                  >
+                    <Palette className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Find nearest Pantone matches</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
           </div>
         </div>
