@@ -1,4 +1,5 @@
 
+
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -58,7 +59,7 @@ export const AdvancedSearch = ({
         </div>
 
         {/* Filters Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-2.5">
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-600">
               Filter by color family group
@@ -123,3 +124,4 @@ export const AdvancedSearch = ({
     </TooltipProvider>
   );
 };
+
