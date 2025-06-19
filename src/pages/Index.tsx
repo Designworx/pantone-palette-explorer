@@ -7,6 +7,7 @@ import { AppHeader } from '@/components/AppHeader';
 import { SearchSection } from '@/components/SearchSection';
 import { NearestMatches } from '@/components/NearestMatches';
 import { ColorGrid } from '@/components/ColorGrid';
+import { BackToTop } from '@/components/BackToTop';
 import { searchPantones, setPantoneData } from '@/utils/pantoneUtils';
 import { useLazyColors } from '@/hooks/useLazyColors';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -99,15 +100,18 @@ const Index = ({ preloadedData }: IndexProps) => {
           </TabsList>
 
           <TabsContent value="search">
-            <SearchSection
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              colorFamily={colorFamily}
-              onColorFamilyChange={setColorFamily}
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-              onNearestMatch={handleNearestMatch}
-            />
+            {/* Sticky Search Section */}
+            <div className="sticky top-0 z-10 bg-gradient-to-br from-gray-50 to-gray-100 pb-6">
+              <SearchSection
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                colorFamily={colorFamily}
+                onColorFamilyChange={setColorFamily}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
+                onNearestMatch={handleNearestMatch}
+              />
+            </div>
 
             <NearestMatches
               nearestMatches={nearestMatches}
@@ -144,6 +148,9 @@ const Index = ({ preloadedData }: IndexProps) => {
             }}
           />
         )}
+
+        {/* Back to Top Button */}
+        <BackToTop />
       </div>
     </div>
   );
