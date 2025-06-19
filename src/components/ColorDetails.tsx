@@ -100,11 +100,11 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
               variant={isSaved(color.PANTONENAME) ? "default" : "outline"}
               onClick={toggleSaved}
               size="icon"
-              className="h-10 w-10"
+              className="h-10 w-10 flex items-center justify-center"
             >
               <Heart className={`h-4 w-4 ${isSaved(color.PANTONENAME) ? 'fill-current' : ''}`} />
             </Button>
-            <Button variant="outline" onClick={onClose} size="icon" className="h-10 w-10 relative">
+            <Button variant="outline" onClick={onClose} size="icon" className="h-10 w-10 flex items-center justify-center">
               <div className="relative w-4 h-4">
                 <div className="absolute inset-0 w-full h-0.5 bg-current transform rotate-45 top-1/2 -translate-y-0.5"></div>
                 <div className="absolute inset-0 w-full h-0.5 bg-current transform -rotate-45 top-1/2 -translate-y-0.5"></div>
