@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Star, Heart, Bookmark, Plus } from 'lucide-react';
+import { Bookmark } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { PantoneColor } from '@/data/pantoneData';
 import { usePalette } from '@/hooks/usePalette';
@@ -41,7 +41,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   };
 
   const toggleSaved = (e: React.MouseEvent) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Prevent modal from opening
     console.log(`Toggling save for ${color.PANTONENAME}, currently saved: ${colorIsSaved}`);
     
     if (colorIsSaved) {
@@ -63,9 +63,6 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
     addToRecent(color);
     onClick?.();
   };
-
-  // Alternative icon options - you can switch between these
-  const SaveIcon = Star; // Change to Heart, Bookmark, or Plus for different options
   
   return (
     <Card 
@@ -79,7 +76,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         className="h-32 w-full relative transition-all duration-300"
         style={{ backgroundColor: color.HEX }}
       >
-        {/* Save button with enhanced visibility */}
+        {/* Bookmark button with enhanced visibility */}
         <Button
           variant="ghost"
           size="sm"
@@ -93,7 +90,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           onClick={toggleSaved}
           title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
         >
-          <SaveIcon 
+          <Bookmark 
             className={`h-4 w-4 transition-all duration-200 ${
               colorIsSaved ? 'fill-current scale-110' : ''
             }`} 
@@ -128,7 +125,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             {color.PANTONENAME}
           </h3>
           {colorIsSaved && (
-            <SaveIcon className="h-4 w-4 text-blue-600 fill-current ml-2" />
+            <Bookmark className="h-4 w-4 text-blue-600 fill-current ml-2" />
           )}
         </div>
         
