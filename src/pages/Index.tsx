@@ -6,7 +6,9 @@ import { AdvancedSearch } from '@/components/AdvancedSearch';
 import { ColorDetails } from '@/components/ColorDetails';
 import { PaletteManager } from '@/components/PaletteManager';
 import { searchPantones, setPantoneData } from '@/utils/pantoneUtils';
+import { useLazyColors } from '@/hooks/useLazyColors';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface IndexProps {
@@ -34,6 +36,24 @@ const Index = ({ preloadedData }: IndexProps) => {
   const filteredColors = useMemo(() => {
     return searchPantones(searchTerm, colorFamily, sortBy);
   }, [searchTerm, colorFamily, sortBy]);
+
+  const {
+    displayedColors,
+    hasMore,
+    remainingCount,
+    loadMore,
+    reset,
+    totalCount
+  } = useLazyColors({
+    colors: filteredColors,
+    initialCount: 64,
+    loadMoreCount: 64
+  });
+
+  // Reset lazy loading when filters change
+  useEffect(() => {
+    reset();
+  }, [searchTerm, colorFamily, sortBy, reset]);
 
   const handleNearestMatch = (colors: Array<PantoneColor & { deltaE: number }>) => {
     setNearestMatches(colors);
@@ -82,7 +102,7 @@ const Index = ({ preloadedData }: IndexProps) => {
             {nearestMatches.length > 0 && (
               <div className="max-w-4xl mx-auto mb-8">
                 <h3 className="text-lg font-semibold mb-4">Nearest Pantone Matches</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {nearestMatches.map((color, index) => (
                     <div key={index} className="relative">
                       <ColorSwatch
@@ -104,23 +124,39 @@ const Index = ({ preloadedData }: IndexProps) => {
             {/* Results Count */}
             <div className="text-center mb-6">
               <p className="text-gray-600">
-                Showing {filteredColors.length} of {PantoneData.length} colors
+                Showing {displayedColors.length} of {totalCount} colors
                 {colorFamily !== 'All' && ` in ${colorFamily}`}
                 {searchTerm && ` matching "${searchTerm}"`}
               </p>
             </div>
 
-            {/* Color Grid */}
-            {filteredColors.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                {filteredColors.map((color, index) => (
-                  <ColorSwatch
-                    key={index}
-                    color={color}
-                    onClick={() => handleColorSelect(color)}
-                  />
-                ))}
-              </div>
+            {/* Color Grid with responsive layout */}
+            {displayedColors.length > 0 ? (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                  {displayedColors.map((color, index) => (
+                    <ColorSwatch
+                      key={index}
+                      color={color}
+                      onClick={() => handleColorSelect(color)}
+                    />
+                  ))}
+                </div>
+
+                {/* Load More Button */}
+                {hasMore && (
+                  <div className="text-center mt-8">
+                    <Button
+                      onClick={loadMore}
+                      variant="outline"
+                      size="lg"
+                      className="px-8"
+                    >
+                      Load More ({remainingCount} remaining)
+                    </Button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-16">
                 <div className="text-gray-400 mb-4">
