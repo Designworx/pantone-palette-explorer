@@ -1,4 +1,3 @@
-
 import { PantoneColor } from '@/data/pantoneData';
 import { hexToLab, calculateDeltaE, hexToRgb, rgbToLab } from './colorConversion';
 
@@ -20,37 +19,59 @@ const getColorFamily = (color: PantoneColor): string => {
   const name = color.PANTONENAME.toLowerCase();
   const hex = color.HEX.toLowerCase();
   
-  // Convert hex to RGB for better color analysis
+  // Convert hex to RGB and HSV for better color analysis
   const rgb = hexToRgb(hex);
   if (!rgb) return 'Neutrals';
   
   const { r, g, b } = rgb;
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const saturation = max === 0 ? 0 : (max - min) / max;
   
-  // Very low saturation colors are neutrals
-  if (saturation < 0.1) {
+  // Convert RGB to HSV for better color classification
+  const rNorm = r / 255;
+  const gNorm = g / 255;
+  const bNorm = b / 255;
+  
+  const max = Math.max(rNorm, gNorm, bNorm);
+  const min = Math.min(rNorm, gNorm, bNorm);
+  const delta = max - min;
+  
+  const saturation = max === 0 ? 0 : delta / max;
+  const value = max;
+  
+  let hue = 0;
+  if (delta !== 0) {
+    if (max === rNorm) {
+      hue = ((gNorm - bNorm) / delta) % 6;
+    } else if (max === gNorm) {
+      hue = (bNorm - rNorm) / delta + 2;
+    } else {
+      hue = (rNorm - gNorm) / delta + 4;
+    }
+    hue = Math.round(hue * 60);
+    if (hue < 0) hue += 360;
+  }
+  
+  // Very low saturation colors are neutrals (regardless of name)
+  if (saturation < 0.15 && value < 0.9) {
     return 'Neutrals';
   }
   
-  // Normalize RGB values to 0-1 range for easier comparison
-  const redRatio = r / 255;
-  const greenRatio = g / 255;
-  const blueRatio = b / 255;
+  // Very dark colors with low saturation are also neutrals
+  if (value < 0.2 && saturation < 0.3) {
+    return 'Neutrals';
+  }
   
   // First check by name patterns for more accurate classification
   if (name.includes('yellow') || name.includes('gold') || name.includes('amber') || 
       name.includes('lemon') || name.includes('canary') || name.includes('banana') ||
       name.includes('corn') || name.includes('sunshine') || name.includes('mustard') ||
-      name.includes('citron') || name.includes('lime')) {
+      name.includes('citron') || name.includes('butter')) {
     return 'Yellows';
   }
   
   if (name.includes('red') || name.includes('crimson') || name.includes('scarlet') || 
       name.includes('burgundy') || name.includes('maroon') || name.includes('cherry') ||
       name.includes('rose') || name.includes('ruby') || name.includes('brick') ||
-      name.includes('wine') || name.includes('coral')) {
+      name.includes('wine') || name.includes('coral') || name.includes('pink')) {
     return 'Reds';
   }
   
@@ -62,7 +83,8 @@ const getColorFamily = (color: PantoneColor): string => {
   
   if (name.includes('green') || name.includes('emerald') || name.includes('forest') || 
       name.includes('mint') || name.includes('olive') || name.includes('sage') ||
-      name.includes('pine') || name.includes('jade') || name.includes('moss')) {
+      name.includes('pine') || name.includes('jade') || name.includes('moss') ||
+      name.includes('lime') && !name.includes('yellow')) {
     return 'Greens';
   }
   
@@ -79,58 +101,61 @@ const getColorFamily = (color: PantoneColor): string => {
   
   if (name.includes('orange') || name.includes('peach') || name.includes('tangerine') ||
       name.includes('apricot') || name.includes('rust')) {
-    // Check if it's more yellow or more red
-    if (greenRatio > 0.5 && redRatio > 0.6) {
+    // Orange colors go to Reds unless they're very yellow
+    if (hue >= 30 && hue <= 60 && gNorm > 0.6) {
       return 'Yellows';
     }
     return 'Reds';
   }
   
-  // If no name match, analyze RGB values
-  // Yellow detection: high red AND green, low blue
-  if (redRatio > 0.5 && greenRatio > 0.5 && blueRatio < 0.4) {
-    return 'Yellows';
-  }
-  
-  // Red detection: red is dominant
-  if (redRatio > greenRatio && redRatio > blueRatio && redRatio > 0.4) {
-    // Check if it's more magenta (high blue too)
-    if (blueRatio > 0.4 && blueRatio > greenRatio) {
-      return 'Magentas';
+  // If no name match, use HSV analysis
+  if (saturation >= 0.15) {
+    // Red hues: 330-360 and 0-30
+    if ((hue >= 330 && hue <= 360) || (hue >= 0 && hue <= 30)) {
+      return 'Reds';
     }
-    return 'Reds';
-  }
-  
-  // Green detection: green is dominant
-  if (greenRatio > redRatio && greenRatio > blueRatio && greenRatio > 0.4) {
-    // Check if it's more cyan (high blue too)
-    if (blueRatio > 0.4 && blueRatio > redRatio) {
+    
+    // Orange/Red-Orange hues: 30-60 (lean towards red unless very yellow)
+    if (hue >= 30 && hue <= 60) {
+      if (hue >= 45 && gNorm > rNorm * 0.8) {
+        return 'Yellows';
+      }
+      return 'Reds';
+    }
+    
+    // Yellow hues: 60-90
+    if (hue >= 60 && hue <= 90) {
+      return 'Yellows';
+    }
+    
+    // Yellow-Green to Green hues: 90-150
+    if (hue >= 90 && hue <= 150) {
+      return 'Greens';
+    }
+    
+    // Green to Cyan hues: 150-210
+    if (hue >= 150 && hue <= 210) {
+      if (hue >= 150 && hue <= 180) {
+        return 'Cyans';
+      }
       return 'Cyans';
     }
-    return 'Greens';
-  }
-  
-  // Blue detection: blue is dominant
-  if (blueRatio > redRatio && blueRatio > greenRatio && blueRatio > 0.4) {
-    // Check if it's more cyan (high green too)
-    if (greenRatio > 0.4 && greenRatio > redRatio) {
-      return 'Cyans';
+    
+    // Cyan to Blue hues: 210-270
+    if (hue >= 210 && hue <= 270) {
+      if (hue <= 240) {
+        return 'Cyans';
+      }
+      return 'Blues';
     }
-    // Check if it's more magenta (high red too)
-    if (redRatio > 0.4 && redRatio > greenRatio) {
-      return 'Magentas';
+    
+    // Blue to Magenta hues: 270-330
+    if (hue >= 270 && hue <= 330) {
+      if (hue >= 300) {
+        return 'Magentas';
+      }
+      return 'Blues';
     }
-    return 'Blues';
-  }
-  
-  // Cyan detection: high green and blue, lower red
-  if (greenRatio > 0.4 && blueRatio > 0.4 && redRatio < greenRatio && redRatio < blueRatio) {
-    return 'Cyans';
-  }
-  
-  // Magenta detection: high red and blue, lower green
-  if (redRatio > 0.4 && blueRatio > 0.4 && greenRatio < redRatio && greenRatio < blueRatio) {
-    return 'Magentas';
   }
   
   return 'Neutrals';
