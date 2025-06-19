@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -45,14 +44,6 @@ export const AdvancedSearch = ({
       <div className="space-y-4">
         {/* Main Search */}
         <div className="relative flex items-center gap-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Info className="h-4 w-4 text-gray-400 hover:text-gray-600 cursor-help" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Search colors by name or number</p>
-            </TooltipContent>
-          </Tooltip>
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
             <Input
