@@ -15,6 +15,60 @@ export const getPantoneData = () => {
   return cachedPantoneData;
 };
 
+// Helper function to determine color family based on Pantone name and hex color
+const getColorFamily = (color: PantoneColor): string => {
+  const name = color.PANTONENAME.toLowerCase();
+  const hex = color.HEX.toLowerCase();
+  
+  // Convert hex to RGB for better color analysis
+  const rgb = hexToRgb(hex);
+  if (!rgb) return 'Neutrals';
+  
+  const { r, g, b } = rgb;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const saturation = max === 0 ? 0 : (max - min) / max;
+  
+  // Low saturation colors are neutrals
+  if (saturation < 0.2) {
+    return 'Neutrals';
+  }
+  
+  // Determine dominant color based on RGB values
+  if (r > g && r > b) {
+    // Red is dominant
+    if (name.includes('red') || name.includes('crimson') || name.includes('scarlet') || 
+        name.includes('burgundy') || name.includes('maroon') || name.includes('cherry')) {
+      return 'Reds';
+    }
+    // Could also be magenta if it has significant blue
+    if (b > g * 1.2) {
+      return 'Magentas';
+    }
+    return 'Reds';
+  } else if (g > r && g > b) {
+    // Green is dominant
+    return 'Greens';
+  } else if (b > r && b > g) {
+    // Blue is dominant
+    if (name.includes('cyan') || (g > r * 1.2)) {
+      return 'Cyans';
+    }
+    return 'Blues';
+  }
+  
+  // Mixed colors - check for specific patterns
+  if (r > b && g > b) {
+    return 'Yellows'; // Red + Green = Yellow
+  } else if (r > g && b > g) {
+    return 'Magentas'; // Red + Blue = Magenta
+  } else if (g > r && b > r) {
+    return 'Cyans'; // Green + Blue = Cyan
+  }
+  
+  return 'Neutrals';
+};
+
 export const searchPantones = (
   searchTerm: string = '',
   colorFamily: string = 'All',
@@ -24,10 +78,9 @@ export const searchPantones = (
   
   let filtered = data.filter(color => {
     const matchesSearch = !searchTerm || 
-      color.PANTONENAME.toLowerCase().includes(searchTerm.toLowerCase()) ||
       color.PANTONENAME.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesFamily = colorFamily === 'All' || true; // No family property in current data
+    const matchesFamily = colorFamily === 'All' || getColorFamily(color) === colorFamily;
     
     return matchesSearch && matchesFamily;
   });
