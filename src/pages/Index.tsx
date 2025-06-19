@@ -24,6 +24,8 @@ const Index = ({ preloadedData }: IndexProps) => {
   const [nearestMatches, setNearestMatches] = useState<Array<PantoneColor & { deltaE: number }>>([]);
   const [selectedColorDeltaE, setSelectedColorDeltaE] = useState<number | undefined>();
   const [dataInitialized, setDataInitialized] = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   // Use preloaded data and initialize the utils
   const PantoneData = preloadedData || [];
@@ -36,6 +38,26 @@ const Index = ({ preloadedData }: IndexProps) => {
       setDataInitialized(true);
     }
   }, [preloadedData]);
+
+  // Track scroll direction
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down
+        setIsScrollingDown(true);
+      } else {
+        // Scrolling up or near top
+        setIsScrollingDown(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const filteredColors = useMemo(() => {
     if (!dataInitialized) {
@@ -101,7 +123,9 @@ const Index = ({ preloadedData }: IndexProps) => {
 
           <TabsContent value="search">
             {/* Sticky Search Section */}
-            <div className="sticky top-0 z-10 bg-gradient-to-br from-gray-50 to-gray-100 pb-6">
+            <div className={`sticky top-0 z-10 bg-gradient-to-br from-gray-50 to-gray-100 pb-6 transition-opacity duration-300 ${
+              isScrollingDown ? 'opacity-70' : 'opacity-100'
+            }`}>
               <SearchSection
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
