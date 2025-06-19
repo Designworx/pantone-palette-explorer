@@ -29,6 +29,13 @@ export const hexToRgb = (hex: string): RGBColor | null => {
   } : null;
 };
 
+// Convert HEX to LAB (convenience function)
+export const hexToLab = (hex: string): LABColor => {
+  const rgb = hexToRgb(hex);
+  if (!rgb) throw new Error('Invalid hex color');
+  return rgbToLab(rgb);
+};
+
 // Convert RGB to LAB (simplified conversion for Delta E calculation)
 export const rgbToLab = (rgb: RGBColor): LABColor => {
   // Convert RGB to XYZ first
