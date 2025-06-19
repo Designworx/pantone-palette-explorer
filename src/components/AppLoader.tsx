@@ -11,22 +11,31 @@ export const AppLoader = ({ onDataLoaded }: AppLoaderProps) => {
   const [progress, setProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Initializing application...');
 
+  console.log('AppLoader component rendering, progress:', progress);
+
   useEffect(() => {
+    console.log('AppLoader useEffect starting');
+    
     const loadData = async () => {
-      // Stage 1: Initialize
-      setProgress(10);
-      setLoadingStage('Initializing application...');
-      
-      // Small delay to show initial stage
-      await new Promise(resolve => setTimeout(resolve, 200));
-      
-      // Stage 2: Load Pantone data
-      setProgress(30);
-      setLoadingStage('Loading Pantone color database...');
-      
       try {
+        // Stage 1: Initialize
+        console.log('Stage 1: Initialize');
+        setProgress(10);
+        setLoadingStage('Initializing application...');
+        
+        // Small delay to show initial stage
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        // Stage 2: Load Pantone data
+        console.log('Stage 2: Loading Pantone data');
+        setProgress(30);
+        setLoadingStage('Loading Pantone color database...');
+        
         // Dynamic import of the heavy Pantone data
+        console.log('Importing Pantone data...');
         const { PantoneData } = await import('@/data/pantoneData');
+        console.log('Pantone data imported:', PantoneData ? PantoneData.length : 'null', 'colors');
+        
         setProgress(60);
         setLoadingStage('Processing color data...');
         
@@ -37,6 +46,7 @@ export const AppLoader = ({ onDataLoaded }: AppLoaderProps) => {
         setLoadingStage('Setting up interface...');
         
         // Pass the loaded data to parent
+        console.log('Calling onDataLoaded with data');
         onDataLoaded?.(PantoneData);
         
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -47,6 +57,8 @@ export const AppLoader = ({ onDataLoaded }: AppLoaderProps) => {
       } catch (error) {
         console.error('Error loading Pantone data:', error);
         setLoadingStage('Error loading data...');
+        // Still call onDataLoaded with empty array to prevent infinite loading
+        onDataLoaded?.([]);
       }
     };
 

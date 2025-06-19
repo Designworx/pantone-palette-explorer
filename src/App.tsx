@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, lazy, useState } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import { AppLoader } from "@/components/AppLoader";
 import NotFound from "./pages/NotFound";
 
@@ -20,17 +20,29 @@ const App = () => {
   const [pantoneData, setPantoneData] = useState(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
+  console.log('App component rendering, isDataLoaded:', isDataLoaded);
+  console.log('Pantone data length:', pantoneData ? pantoneData.length : 'null');
+
+  useEffect(() => {
+    console.log('App component mounted');
+  }, []);
+
   const handleDataLoaded = (data: any) => {
+    console.log('Data loaded in App component:', data ? data.length : 'null', 'colors');
     setPantoneData(data);
     // Small delay to show completion
     setTimeout(() => {
+      console.log('Setting isDataLoaded to true');
       setIsDataLoaded(true);
     }, 500);
   };
 
   if (!isDataLoaded) {
+    console.log('Showing AppLoader');
     return <AppLoader onDataLoaded={handleDataLoaded} />;
   }
+
+  console.log('Rendering main app with router');
 
   return (
     <QueryClientProvider client={queryClient}>
