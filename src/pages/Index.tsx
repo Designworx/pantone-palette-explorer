@@ -22,6 +22,7 @@ const Index = ({ preloadedData }: IndexProps) => {
   const [selectedColor, setSelectedColor] = useState<PantoneColor | null>(null);
   const [nearestMatches, setNearestMatches] = useState<Array<PantoneColor & { deltaE: number }>>([]);
   const [selectedColorDeltaE, setSelectedColorDeltaE] = useState<number | undefined>();
+  const [dataInitialized, setDataInitialized] = useState(false);
 
   // Use preloaded data and initialize the utils
   const PantoneData = preloadedData || [];
@@ -29,13 +30,22 @@ const Index = ({ preloadedData }: IndexProps) => {
   // Initialize the pantone utils with preloaded data
   useEffect(() => {
     if (preloadedData && preloadedData.length > 0) {
+      console.log(`Initializing Pantone data with ${preloadedData.length} colors`);
       setPantoneData(preloadedData);
+      setDataInitialized(true);
     }
   }, [preloadedData]);
 
   const filteredColors = useMemo(() => {
-    return searchPantones(searchTerm, colorFamily, sortBy);
-  }, [searchTerm, colorFamily, sortBy]);
+    if (!dataInitialized) {
+      console.log('Data not initialized yet, returning empty array');
+      return [];
+    }
+    console.log(`Searching with term: "${searchTerm}", family: "${colorFamily}", sort: "${sortBy}"`);
+    const results = searchPantones(searchTerm, colorFamily, sortBy);
+    console.log(`Search returned ${results.length} colors`);
+    return results;
+  }, [searchTerm, colorFamily, sortBy, dataInitialized]);
 
   const {
     displayedColors,
@@ -63,6 +73,18 @@ const Index = ({ preloadedData }: IndexProps) => {
     setSelectedColor(color);
     setSelectedColorDeltaE(deltaE);
   };
+
+  // Show loading state if data isn't initialized yet
+  if (!dataInitialized) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading Pantone colors...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
