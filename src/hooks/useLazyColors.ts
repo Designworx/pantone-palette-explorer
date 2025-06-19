@@ -23,10 +23,16 @@ export const useLazyColors = ({
   const remainingCount = colors.length - displayCount;
 
   const loadMore = () => {
-    setDisplayCount(prev => Math.min(prev + loadMoreCount, colors.length));
+    console.log(`Loading ${loadMoreCount} more colors. Current: ${displayCount}, Total: ${colors.length}`);
+    setDisplayCount(prev => {
+      const newCount = Math.min(prev + loadMoreCount, colors.length);
+      console.log(`New display count: ${newCount}`);
+      return newCount;
+    });
   };
 
   const reset = () => {
+    console.log(`Resetting to initial count: ${initialCount}`);
     setDisplayCount(initialCount);
   };
 
