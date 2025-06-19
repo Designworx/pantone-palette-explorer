@@ -41,7 +41,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   };
 
   const toggleSaved = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent modal from opening
+    e.preventDefault();
+    e.stopPropagation();
     console.log(`Toggling save for ${color.PANTONENAME}, currently saved: ${colorIsSaved}`);
     
     if (colorIsSaved) {
@@ -80,7 +81,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         <Button
           variant="ghost"
           size="sm"
-          className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 ${
+          className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 z-10 ${
             colorIsSaved 
               ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
               : isHovered 
@@ -88,6 +89,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                 : 'opacity-0'
           }`}
           onClick={toggleSaved}
+          onMouseDown={(e) => e.stopPropagation()}
           title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
         >
           <Bookmark 
