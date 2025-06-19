@@ -38,7 +38,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter basename={basename}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center"><div className="text-gray-600">Initializing...</div></div>}>
             <Routes>
               <Route path="/" element={<Index preloadedData={pantoneData} />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

@@ -1,11 +1,11 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { PantoneColor } from '@/data/pantoneData';
 import { ColorSwatch } from '@/components/ColorSwatch';
 import { AdvancedSearch } from '@/components/AdvancedSearch';
 import { ColorDetails } from '@/components/ColorDetails';
 import { PaletteManager } from '@/components/PaletteManager';
-import { searchPantones } from '@/utils/pantoneUtils';
+import { searchPantones, setPantoneData } from '@/utils/pantoneUtils';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -21,8 +21,15 @@ const Index = ({ preloadedData }: IndexProps) => {
   const [nearestMatches, setNearestMatches] = useState<Array<PantoneColor & { deltaE: number }>>([]);
   const [selectedColorDeltaE, setSelectedColorDeltaE] = useState<number | undefined>();
 
-  // Use preloaded data if available, otherwise fall back to import
+  // Use preloaded data and initialize the utils
   const PantoneData = preloadedData || [];
+
+  // Initialize the pantone utils with preloaded data
+  useEffect(() => {
+    if (preloadedData && preloadedData.length > 0) {
+      setPantoneData(preloadedData);
+    }
+  }, [preloadedData]);
 
   const filteredColors = useMemo(() => {
     return searchPantones(searchTerm, colorFamily, sortBy);
