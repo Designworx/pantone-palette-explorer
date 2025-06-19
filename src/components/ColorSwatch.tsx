@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -96,9 +97,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
               >
                 <Heart 
                   className={`h-4 w-4 transition-all duration-200 ${
-                    colorIsSaved ? 'fill-current scale-110' : ''
+                    colorIsSaved ? 'fill-current scale-110 text-red-600' : ''
                   }`} 
-                  style={{ color: textColor }} 
+                  style={{ color: colorIsSaved ? '#dc2626' : textColor }} 
                 />
               </Button>
             </TooltipTrigger>
@@ -133,9 +134,6 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             <h3 className="font-semibold text-sm text-gray-900 leading-tight flex-1">
               {color.PANTONENAME}
             </h3>
-            {colorIsSaved && (
-              <Heart className="h-4 w-4 text-red-600 fill-current ml-2" />
-            )}
           </div>
           
           <div className="space-y-1">

@@ -102,7 +102,7 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
               onClick={toggleSaved}
               className="h-10 flex items-center justify-center gap-2 px-4"
             >
-              <Heart className={`h-4 w-4 ${isSaved(color.PANTONENAME) ? 'fill-current' : ''}`} />
+              <Heart className={`h-4 w-4 ${isSaved(color.PANTONENAME) ? 'fill-current text-red-600' : ''}`} />
               <span className="text-sm">
                 {isSaved(color.PANTONENAME) ? 'Remove from favorites' : 'Add to favorites'}
               </span>
