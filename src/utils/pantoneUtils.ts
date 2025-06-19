@@ -1,3 +1,4 @@
+
 import { PantoneColor } from '@/data/pantoneData';
 import { hexToLab, calculateDeltaE, hexToRgb, rgbToLab } from './colorConversion';
 
@@ -29,82 +30,106 @@ const getColorFamily = (color: PantoneColor): string => {
   const saturation = max === 0 ? 0 : (max - min) / max;
   
   // Very low saturation colors are neutrals
-  if (saturation < 0.15) {
+  if (saturation < 0.1) {
     return 'Neutrals';
   }
+  
+  // Normalize RGB values to 0-1 range for easier comparison
+  const redRatio = r / 255;
+  const greenRatio = g / 255;
+  const blueRatio = b / 255;
   
   // First check by name patterns for more accurate classification
   if (name.includes('yellow') || name.includes('gold') || name.includes('amber') || 
       name.includes('lemon') || name.includes('canary') || name.includes('banana') ||
-      name.includes('corn') || name.includes('sunshine')) {
+      name.includes('corn') || name.includes('sunshine') || name.includes('mustard') ||
+      name.includes('citron') || name.includes('lime')) {
     return 'Yellows';
   }
   
   if (name.includes('red') || name.includes('crimson') || name.includes('scarlet') || 
       name.includes('burgundy') || name.includes('maroon') || name.includes('cherry') ||
-      name.includes('rose') || name.includes('ruby')) {
+      name.includes('rose') || name.includes('ruby') || name.includes('brick') ||
+      name.includes('wine') || name.includes('coral')) {
     return 'Reds';
   }
   
   if (name.includes('blue') || name.includes('navy') || name.includes('azure') || 
-      name.includes('sapphire') || name.includes('cobalt') || name.includes('royal')) {
+      name.includes('sapphire') || name.includes('cobalt') || name.includes('royal') ||
+      name.includes('cerulean') || name.includes('indigo') || name.includes('sky')) {
     return 'Blues';
   }
   
   if (name.includes('green') || name.includes('emerald') || name.includes('forest') || 
-      name.includes('mint') || name.includes('lime') || name.includes('olive')) {
+      name.includes('mint') || name.includes('olive') || name.includes('sage') ||
+      name.includes('pine') || name.includes('jade') || name.includes('moss')) {
     return 'Greens';
   }
   
   if (name.includes('cyan') || name.includes('turquoise') || name.includes('teal') || 
-      name.includes('aqua')) {
+      name.includes('aqua') || name.includes('peacock')) {
     return 'Cyans';
   }
   
   if (name.includes('magenta') || name.includes('fuchsia') || name.includes('purple') || 
-      name.includes('violet') || name.includes('plum') || name.includes('lavender')) {
+      name.includes('violet') || name.includes('plum') || name.includes('lavender') ||
+      name.includes('orchid') || name.includes('amethyst')) {
     return 'Magentas';
   }
   
-  if (name.includes('orange') || name.includes('coral') || name.includes('peach') || 
-      name.includes('tangerine')) {
-    // Orange is between red and yellow, but we'll classify as red for now
+  if (name.includes('orange') || name.includes('peach') || name.includes('tangerine') ||
+      name.includes('apricot') || name.includes('rust')) {
+    // Check if it's more yellow or more red
+    if (greenRatio > 0.5 && redRatio > 0.6) {
+      return 'Yellows';
+    }
     return 'Reds';
   }
   
-  // If no name match, analyze RGB values more carefully
-  const redRatio = r / 255;
-  const greenRatio = g / 255;
-  const blueRatio = b / 255;
-  
+  // If no name match, analyze RGB values
   // Yellow detection: high red AND green, low blue
-  if (redRatio > 0.6 && greenRatio > 0.6 && blueRatio < 0.5 && 
-      Math.abs(redRatio - greenRatio) < 0.3) {
+  if (redRatio > 0.5 && greenRatio > 0.5 && blueRatio < 0.4) {
     return 'Yellows';
   }
   
-  // Red detection: high red, lower green and blue
-  if (redRatio > 0.5 && redRatio > greenRatio * 1.3 && redRatio > blueRatio * 1.3) {
+  // Red detection: red is dominant
+  if (redRatio > greenRatio && redRatio > blueRatio && redRatio > 0.4) {
+    // Check if it's more magenta (high blue too)
+    if (blueRatio > 0.4 && blueRatio > greenRatio) {
+      return 'Magentas';
+    }
     return 'Reds';
   }
   
-  // Green detection: high green, lower red and blue
-  if (greenRatio > 0.5 && greenRatio > redRatio * 1.2 && greenRatio > blueRatio * 1.2) {
+  // Green detection: green is dominant
+  if (greenRatio > redRatio && greenRatio > blueRatio && greenRatio > 0.4) {
+    // Check if it's more cyan (high blue too)
+    if (blueRatio > 0.4 && blueRatio > redRatio) {
+      return 'Cyans';
+    }
     return 'Greens';
   }
   
-  // Blue detection: high blue, lower red and green
-  if (blueRatio > 0.5 && blueRatio > redRatio * 1.2 && blueRatio > greenRatio * 1.2) {
+  // Blue detection: blue is dominant
+  if (blueRatio > redRatio && blueRatio > greenRatio && blueRatio > 0.4) {
+    // Check if it's more cyan (high green too)
+    if (greenRatio > 0.4 && greenRatio > redRatio) {
+      return 'Cyans';
+    }
+    // Check if it's more magenta (high red too)
+    if (redRatio > 0.4 && redRatio > greenRatio) {
+      return 'Magentas';
+    }
     return 'Blues';
   }
   
   // Cyan detection: high green and blue, lower red
-  if (greenRatio > 0.5 && blueRatio > 0.5 && redRatio < 0.4) {
+  if (greenRatio > 0.4 && blueRatio > 0.4 && redRatio < greenRatio && redRatio < blueRatio) {
     return 'Cyans';
   }
   
   // Magenta detection: high red and blue, lower green
-  if (redRatio > 0.5 && blueRatio > 0.5 && greenRatio < 0.4) {
+  if (redRatio > 0.4 && blueRatio > 0.4 && greenRatio < redRatio && greenRatio < blueRatio) {
     return 'Magentas';
   }
   
