@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Star } from 'lucide-react';
+import { Star, Heart, Bookmark, Plus } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { PantoneColor } from '@/data/pantoneData';
 import { usePalette } from '@/hooks/usePalette';
@@ -28,6 +28,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const { addToSaved, removeFromSaved, isSaved, addToRecent } = usePalette();
   const textColor = getTextColor(color.HEX);
+  const colorIsSaved = isSaved(color.PANTONENAME);
 
   const copyToClipboard = (text: string, type: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -41,17 +42,19 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
 
   const toggleSaved = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isSaved(color.PANTONENAME)) {
+    console.log(`Toggling save for ${color.PANTONENAME}, currently saved: ${colorIsSaved}`);
+    
+    if (colorIsSaved) {
       removeFromSaved(color.PANTONENAME);
       toast({
         title: "Removed from saved",
-        description: `${color.PANTONENAME} removed`,
+        description: `${color.PANTONENAME} removed from favorites`,
       });
     } else {
       addToSaved(color);
       toast({
         title: "Added to saved",
-        description: `${color.PANTONENAME} saved`,
+        description: `${color.PANTONENAME} saved to favorites`,
       });
     }
   };
@@ -61,6 +64,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
     onClick?.();
   };
 
+  // Alternative icon options - you can switch between these
+  const SaveIcon = Star; // Change to Heart, Bookmark, or Plus for different options
+  
   return (
     <Card 
       className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer"
@@ -73,19 +79,30 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         className="h-32 w-full relative transition-all duration-300"
         style={{ backgroundColor: color.HEX }}
       >
-        {/* Star button */}
+        {/* Save button with enhanced visibility */}
         <Button
           variant="ghost"
           size="sm"
-          className={`absolute top-2 right-2 h-8 w-8 p-0 ${
-            isHovered || isSaved(color.PANTONENAME) ? 'opacity-100' : 'opacity-0'
-          } transition-opacity hover:bg-white/20`}
+          className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 ${
+            colorIsSaved 
+              ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
+              : isHovered 
+                ? 'opacity-100 bg-white/20 backdrop-blur-sm hover:bg-white/40' 
+                : 'opacity-0'
+          }`}
           onClick={toggleSaved}
+          title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
         >
-          <Star className={`h-4 w-4 ${isSaved(color.PANTONENAME) ? 'fill-current' : ''}`} style={{ color: textColor }} />
+          <SaveIcon 
+            className={`h-4 w-4 transition-all duration-200 ${
+              colorIsSaved ? 'fill-current scale-110' : ''
+            }`} 
+            style={{ color: textColor }} 
+          />
         </Button>
 
-        {isHovered && (
+        {/* Hover overlay */}
+        {isHovered && !colorIsSaved && (
           <div 
             className="absolute inset-0 flex items-center justify-center text-sm font-medium transition-opacity duration-300 bg-black bg-opacity-10"
             style={{ color: textColor }}
@@ -93,13 +110,27 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             Click for details
           </div>
         )}
+
+        {/* Saved indicator */}
+        {colorIsSaved && (
+          <div className="absolute bottom-2 left-2">
+            <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-gray-800">
+              Saved
+            </div>
+          </div>
+        )}
       </div>
       
       {/* Color Information */}
       <div className="p-4 space-y-2">
-        <h3 className="font-semibold text-sm text-gray-900 leading-tight">
-          {color.PANTONENAME}
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-sm text-gray-900 leading-tight flex-1">
+            {color.PANTONENAME}
+          </h3>
+          {colorIsSaved && (
+            <SaveIcon className="h-4 w-4 text-blue-600 fill-current ml-2" />
+          )}
+        </div>
         
         <div className="space-y-1">
           <div 
