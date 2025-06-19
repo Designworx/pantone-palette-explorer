@@ -1,7 +1,7 @@
-
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Heart } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { PantoneColor } from '@/data/pantoneData';
@@ -66,91 +66,99 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   };
   
   return (
-    <Card 
-      className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={handleClick}
-    >
-      {/* Color Swatch */}
-      <div 
-        className="h-32 w-full relative transition-all duration-300"
-        style={{ backgroundColor: color.HEX }}
+    <TooltipProvider>
+      <Card 
+        className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handleClick}
       >
-        {/* Heart button with enhanced visibility */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 z-10 ${
-            colorIsSaved 
-              ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
-              : isHovered 
-                ? 'opacity-100 bg-white/20 backdrop-blur-sm hover:bg-white/40' 
-                : 'opacity-0'
-          }`}
-          onClick={toggleSaved}
-          onMouseDown={(e) => e.stopPropagation()}
-          title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
+        {/* Color Swatch */}
+        <div 
+          className="h-32 w-full relative transition-all duration-300"
+          style={{ backgroundColor: color.HEX }}
         >
-          <Heart 
-            className={`h-4 w-4 transition-all duration-200 ${
-              colorIsSaved ? 'fill-current scale-110' : ''
-            }`} 
-            style={{ color: textColor }} 
-          />
-        </Button>
+          {/* Heart button with enhanced visibility and tooltip */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 z-10 ${
+                  colorIsSaved 
+                    ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
+                    : isHovered 
+                      ? 'opacity-100 bg-white/20 backdrop-blur-sm hover:bg-white/40' 
+                      : 'opacity-0'
+                }`}
+                onClick={toggleSaved}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                <Heart 
+                  className={`h-4 w-4 transition-all duration-200 ${
+                    colorIsSaved ? 'fill-current scale-110' : ''
+                  }`} 
+                  style={{ color: textColor }} 
+                />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left">
+              <p>{colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}</p>
+            </TooltipContent>
+          </Tooltip>
 
-        {/* Hover overlay */}
-        {isHovered && !colorIsSaved && (
-          <div 
-            className="absolute inset-0 flex items-center justify-center text-sm font-medium transition-opacity duration-300 bg-black bg-opacity-10"
-            style={{ color: textColor }}
-          >
-            Click for details
-          </div>
-        )}
-
-        {/* Saved indicator */}
-        {colorIsSaved && (
-          <div className="absolute bottom-2 left-2">
-            <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-gray-800">
-              Saved
+          {/* Hover overlay */}
+          {isHovered && !colorIsSaved && (
+            <div 
+              className="absolute inset-0 flex items-center justify-center text-sm font-medium transition-opacity duration-300 bg-black bg-opacity-10"
+              style={{ color: textColor }}
+            >
+              Click for details
             </div>
-          </div>
-        )}
-      </div>
-      
-      {/* Color Information */}
-      <div className="p-4 space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-sm text-gray-900 leading-tight flex-1">
-            {color.PANTONENAME}
-          </h3>
+          )}
+
+          {/* Saved indicator */}
           {colorIsSaved && (
-            <Heart className="h-4 w-4 text-red-600 fill-current ml-2" />
+            <div className="absolute bottom-2 left-2">
+              <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-gray-800">
+                Saved
+              </div>
+            </div>
           )}
         </div>
         
-        <div className="space-y-1">
-          <div 
-            className="text-xs text-gray-600 cursor-pointer hover:text-blue-600 transition-colors"
-            onClick={(e) => copyToClipboard(color.HEX, 'Hex', e)}
-          >
-            <span className="font-medium">HEX:</span> {color.HEX}
+        {/* Color Information */}
+        <div className="p-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-sm text-gray-900 leading-tight flex-1">
+              {color.PANTONENAME}
+            </h3>
+            {colorIsSaved && (
+              <Heart className="h-4 w-4 text-red-600 fill-current ml-2" />
+            )}
           </div>
           
-          <div 
-            className="text-xs text-gray-600 cursor-pointer hover:text-blue-600 transition-colors"
-            onClick={(e) => copyToClipboard(`C:${color.C} M:${color.M} Y:${color.Y} K:${color.K}`, 'CMYK', e)}
-          >
-            <span className="font-medium">CMYK:</span> C:{color.C} M:{color.M} Y:{color.Y} K:{color.K}
-          </div>
-          
-          <div className="text-xs text-gray-500">
-            <span className="font-medium">RGB:</span> {color.R}, {color.G}, {color.B}
+          <div className="space-y-1">
+            <div 
+              className="text-xs text-gray-600 cursor-pointer hover:text-blue-600 transition-colors"
+              onClick={(e) => copyToClipboard(color.HEX, 'Hex', e)}
+            >
+              <span className="font-medium">HEX:</span> {color.HEX}
+            </div>
+            
+            <div 
+              className="text-xs text-gray-600 cursor-pointer hover:text-blue-600 transition-colors"
+              onClick={(e) => copyToClipboard(`C:${color.C} M:${color.M} Y:${color.Y} K:${color.K}`, 'CMYK', e)}
+            >
+              <span className="font-medium">CMYK:</span> C:{color.C} M:{color.M} Y:{color.Y} K:{color.K}
+            </div>
+            
+            <div className="text-xs text-gray-500">
+              <span className="font-medium">RGB:</span> {color.R}, {color.G}, {color.B}
+            </div>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </TooltipProvider>
   );
 };

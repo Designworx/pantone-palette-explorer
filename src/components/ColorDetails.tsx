@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { PantoneColor } from '@/data/pantoneData';
 import { Card } from '@/components/ui/card';
@@ -99,10 +100,12 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
             <Button
               variant={isSaved(color.PANTONENAME) ? "default" : "outline"}
               onClick={toggleSaved}
-              size="icon"
-              className="h-10 w-10 flex items-center justify-center"
+              className="h-10 flex items-center justify-center gap-2 px-4"
             >
               <Heart className={`h-4 w-4 ${isSaved(color.PANTONENAME) ? 'fill-current' : ''}`} />
+              <span className="text-sm">
+                {isSaved(color.PANTONENAME) ? 'Remove from favorites' : 'Add to favorites'}
+              </span>
             </Button>
             <Button variant="outline" onClick={onClose} size="icon" className="h-10 w-10 flex items-center justify-center">
               <div className="relative w-4 h-4">
