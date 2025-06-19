@@ -3,19 +3,55 @@ import { Loader } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { useEffect, useState } from 'react';
 
-export const AppLoader = () => {
+interface AppLoaderProps {
+  onDataLoaded?: (data: any) => void;
+}
+
+export const AppLoader = ({ onDataLoaded }: AppLoaderProps) => {
   const [progress, setProgress] = useState(0);
+  const [loadingStage, setLoadingStage] = useState('Initializing application...');
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 90) return prev;
-        return prev + Math.random() * 15;
-      });
-    }, 200);
+    const loadData = async () => {
+      // Stage 1: Initialize
+      setProgress(10);
+      setLoadingStage('Initializing application...');
+      
+      // Small delay to show initial stage
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
+      // Stage 2: Load Pantone data
+      setProgress(30);
+      setLoadingStage('Loading Pantone color database...');
+      
+      try {
+        // Dynamic import of the heavy Pantone data
+        const { PantoneData } = await import('@/data/pantoneData');
+        setProgress(60);
+        setLoadingStage('Processing color data...');
+        
+        // Simulate processing time for large dataset
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        setProgress(80);
+        setLoadingStage('Setting up interface...');
+        
+        // Pass the loaded data to parent
+        onDataLoaded?.(PantoneData);
+        
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        setProgress(100);
+        setLoadingStage('Ready!');
+        
+      } catch (error) {
+        console.error('Error loading Pantone data:', error);
+        setLoadingStage('Error loading data...');
+      }
+    };
 
-    return () => clearInterval(timer);
-  }, []);
+    loadData();
+  }, [onDataLoaded]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
@@ -40,10 +76,7 @@ export const AppLoader = () => {
         <div className="space-y-2">
           <Progress value={progress} className="w-full" />
           <p className="text-sm text-gray-500">
-            {progress < 30 && "Initializing application..."}
-            {progress >= 30 && progress < 60 && "Loading Pantone colors..."}
-            {progress >= 60 && progress < 90 && "Setting up interface..."}
-            {progress >= 90 && "Almost ready..."}
+            {loadingStage}
           </p>
         </div>
 

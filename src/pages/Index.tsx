@@ -1,6 +1,6 @@
 
 import { useState, useMemo } from 'react';
-import { PantoneData, PantoneColor } from '@/data/pantoneData';
+import { PantoneColor } from '@/data/pantoneData';
 import { ColorSwatch } from '@/components/ColorSwatch';
 import { AdvancedSearch } from '@/components/AdvancedSearch';
 import { ColorDetails } from '@/components/ColorDetails';
@@ -9,13 +9,20 @@ import { searchPantones } from '@/utils/pantoneUtils';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const Index = () => {
+interface IndexProps {
+  preloadedData?: PantoneColor[];
+}
+
+const Index = ({ preloadedData }: IndexProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [colorFamily, setColorFamily] = useState('All');
   const [sortBy, setSortBy] = useState('name');
   const [selectedColor, setSelectedColor] = useState<PantoneColor | null>(null);
   const [nearestMatches, setNearestMatches] = useState<Array<PantoneColor & { deltaE: number }>>([]);
   const [selectedColorDeltaE, setSelectedColorDeltaE] = useState<number | undefined>();
+
+  // Use preloaded data if available, otherwise fall back to import
+  const PantoneData = preloadedData || [];
 
   const filteredColors = useMemo(() => {
     return searchPantones(searchTerm, colorFamily, sortBy);
