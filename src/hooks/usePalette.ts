@@ -46,15 +46,15 @@ export const usePalette = () => {
   }, [recentColors]);
 
   const addToSaved = (color: PantoneColor) => {
-    if (savedColors.length >= 10) {
-      setSavedColors(prev => [...prev.slice(1), color]);
-    } else {
-      setSavedColors(prev => {
-        const exists = prev.find(c => c.PANTONENAME === color.PANTONENAME);
-        if (exists) return prev;
-        return [...prev, color];
-      });
-    }
+    setSavedColors(prev => {
+      // Check if color already exists
+      const exists = prev.find(c => c.PANTONENAME === color.PANTONENAME);
+      if (exists) return prev;
+      
+      // Add new color, limit to 10 total
+      const newColors = [...prev, color];
+      return newColors.length > 10 ? newColors.slice(1) : newColors;
+    });
   };
 
   const removeFromSaved = (colorName: string) => {
