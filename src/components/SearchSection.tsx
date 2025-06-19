@@ -22,16 +22,18 @@ export const SearchSection = ({
   onNearestMatch
 }: SearchSectionProps) => {
   return (
-    <div className="max-w-4xl mx-auto mb-8">
-      <AdvancedSearch
-        searchTerm={searchTerm}
-        onSearchChange={onSearchChange}
-        colorFamily={colorFamily}
-        onColorFamilyChange={onColorFamilyChange}
-        sortBy={sortBy}
-        onSortChange={onSortChange}
-        onNearestMatch={onNearestMatch}
-      />
+    <div className="flex items-center justify-center min-h-[120px] shadow-sm">
+      <div className="max-w-4xl w-full">
+        <AdvancedSearch
+          searchTerm={searchTerm}
+          onSearchChange={onSearchChange}
+          colorFamily={colorFamily}
+          onColorFamilyChange={onColorFamilyChange}
+          sortBy={sortBy}
+          onSortChange={onSortChange}
+          onNearestMatch={onNearestMatch}
+        />
+      </div>
     </div>
   );
 };
