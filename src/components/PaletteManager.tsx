@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -105,23 +106,26 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
         <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-gray-800">
           <TabsTrigger 
             value="saved"
-            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white text-xs sm:text-sm"
           >
-            <Star className="h-4 w-4 mr-2" />
-            Saved ({savedColors.length}/10)
+            <Star className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Saved ({savedColors.length}/10)</span>
+            <span className="sm:hidden">({savedColors.length}/10)</span>
           </TabsTrigger>
           <TabsTrigger 
             value="recent"
-            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white text-xs sm:text-sm"
           >
-            <Clock className="h-4 w-4 mr-2" />
-            Recent
+            <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Recent</span>
+            <span className="sm:hidden">Recent</span>
           </TabsTrigger>
           <TabsTrigger 
             value="palettes"
-            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white text-xs sm:text-sm"
           >
-            Palettes ({savedPalettes.length})
+            <span className="hidden sm:inline">Palettes ({savedPalettes.length})</span>
+            <span className="sm:hidden">({savedPalettes.length})</span>
           </TabsTrigger>
         </TabsList>
 
