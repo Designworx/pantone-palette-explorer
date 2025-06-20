@@ -42,7 +42,7 @@ export const BackToTop = () => {
   return (
     <Button
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 z-50 h-12 w-12 rounded-full shadow-lg transition-all duration-300 ${
+      className={`fixed bottom-6 right-6 z-50 h-12 w-12 shadow-lg transition-all duration-300 ${
         isVisible 
           ? 'translate-x-0 opacity-100' 
           : 'translate-x-full opacity-0'

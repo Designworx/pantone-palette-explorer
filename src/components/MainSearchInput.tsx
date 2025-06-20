@@ -20,7 +20,7 @@ export const MainSearchInput = ({
           placeholder="Search Pantone colors by name or number..." 
           value={searchTerm} 
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-16 h-14 text-lg font-medium border border-border focus:border-ring transition-all duration-200 bg-card shadow-sm rounded-xl placeholder:text-muted-foreground" 
+          className="pl-16 h-14 text-lg font-medium border border-border focus:border-ring transition-all duration-200 bg-card shadow-sm placeholder:text-muted-foreground" 
         />
       </div>
     </div>
