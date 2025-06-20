@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Search, Palette, Info } from 'lucide-react';
 import { findNearestPantones } from '@/utils/pantoneUtils';
 import { PantoneColor } from '@/data/pantoneData';
+
 interface AdvancedSearchProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
@@ -18,6 +19,7 @@ interface AdvancedSearchProps {
     deltaE: number;
   }>) => void;
 }
+
 export const AdvancedSearch = ({
   searchTerm,
   onSearchChange,
@@ -79,7 +81,7 @@ export const AdvancedSearch = ({
       </div>
     </>;
   return <TooltipProvider>
-      <div className="space-y-6 sticky top-0 z-50 py-6 bg-slate-50 px-[10px] mx-0 my-0">
+      <div className="space-y-6 sticky top-0 z-50 py-6 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0">
         {/* Main Search */}
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
