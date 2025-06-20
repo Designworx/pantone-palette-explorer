@@ -84,7 +84,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-[1] ${
               colorIsSaved 
                 ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
-                : 'opacity-100 md:opacity-0 bg-white/20 backdrop-blur-sm hover:bg-white/40 md:hover:opacity-100'
+                : `opacity-100 md:opacity-0 bg-white/20 backdrop-blur-sm hover:bg-white/40 ${isHovered ? 'md:opacity-100' : ''}`
             }`}
             onClick={(e) => {
               e.preventDefault();
