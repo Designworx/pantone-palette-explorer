@@ -8,6 +8,7 @@ import { Suspense, lazy, useState, useEffect } from "react";
 import { AppLoader } from "@/components/AppLoader";
 import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { PaletteProvider } from "@/contexts/PaletteContext";
 
 // Lazy load the Index component
 const Index = lazy(() => import("./pages/Index"));
@@ -54,17 +55,19 @@ const App = () => {
     >
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter basename={basename}>
-            <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center"><div className="text-gray-600">Initializing...</div></div>}>
-              <Routes>
-                <Route path="/" element={<Index preloadedData={pantoneData} />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
+          <PaletteProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter basename={basename}>
+              <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center"><div className="text-gray-600">Initializing...</div></div>}>
+                <Routes>
+                  <Route path="/" element={<Index preloadedData={pantoneData} />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </PaletteProvider>
         </TooltipProvider>
       </QueryClientProvider>
     </ThemeProvider>
