@@ -104,17 +104,17 @@ export const AdvancedSearch = ({
     </>;
     
   return <TooltipProvider>
-      <div className="space-y-6 sticky top-0 py-6 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0 z-50">
-        {/* Main Search */}
+      <div className="space-y-8 sticky top-0 py-8 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0 z-50">
+        {/* Main Search - Made More Prominent */}
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none" />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-500 h-6 w-6 pointer-events-none" />
             <Input 
               type="text" 
               placeholder="Search Pantone colors by name or number..." 
               value={searchTerm} 
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-10 h-12 text-lg border-2 border-gray-200 focus:border-blue-500 transition-colors" 
+              className="pl-14 h-16 text-xl font-medium border-3 border-blue-200 dark:border-blue-800 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 bg-white dark:bg-gray-800 shadow-lg rounded-xl placeholder:text-gray-400 dark:placeholder:text-gray-500" 
             />
           </div>
         </div>
@@ -144,7 +144,7 @@ export const AdvancedSearch = ({
 
           {/* Collapsible Filters with smooth slide animation */}
           <CollapsibleContent className="overflow-visible data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
               <div className="flex items-center gap-2">
                 <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
                 <Select value={colorFamily} onValueChange={onColorFamilyChange}>
