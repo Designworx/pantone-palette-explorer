@@ -3,8 +3,8 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export const AppHeader = () => {
   return (
-    <div className="relative text-center mb-8">
-      <div className="absolute top-0 right-0">
+    <div className="text-center mb-8">
+      <div className="flex justify-center mb-4">
         <ThemeToggle />
       </div>
       <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
