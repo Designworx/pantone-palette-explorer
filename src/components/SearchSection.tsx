@@ -22,7 +22,7 @@ export const SearchSection = ({
   onNearestMatch
 }: SearchSectionProps) => {
   return (
-    <div className="flex items-center justify-center min-h-[120px] shadow-md z-20">
+    <div className="flex items-center justify-center min-h-[120px] shadow-md z-[9999] relative">
       <div className="max-w-4xl w-full">
         <AdvancedSearch
           searchTerm={searchTerm}

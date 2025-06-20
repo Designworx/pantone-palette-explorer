@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -31,12 +32,14 @@ export const AdvancedSearch = ({
 }: AdvancedSearchProps) => {
   const [hexInput, setHexInput] = useState('');
   const [openPopover, setOpenPopover] = useState<string | null>(null);
+  
   const handleFindNearest = () => {
     if (hexInput) {
       const nearest = findNearestPantones(hexInput, 3);
       onNearestMatch(nearest);
     }
   };
+  
   const handlePopoverChange = (popoverId: string, isOpen: boolean) => {
     if (isOpen) {
       setOpenPopover(popoverId);
@@ -44,6 +47,7 @@ export const AdvancedSearch = ({
       setOpenPopover(null);
     }
   };
+  
   const colorFamilies = ['All', 'Reds', 'Yellows', 'Greens', 'Blues', 'Cyans', 'Magentas', 'Neutrals'];
 
   // Helper component for mobile-friendly info icons
@@ -80,8 +84,9 @@ export const AdvancedSearch = ({
         </Popover>
       </div>
     </>;
+    
   return <TooltipProvider>
-      <div className="space-y-6 sticky top-0 z-[9999] py-6 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0">
+      <div className="space-y-6 sticky top-0 py-6 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0">
         {/* Main Search */}
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
