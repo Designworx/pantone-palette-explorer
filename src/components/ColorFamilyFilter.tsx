@@ -26,7 +26,7 @@ export const ColorFamilyFilter = ({
         onPopoverChange={onPopoverChange}
       />
       <Select value={colorFamily} onValueChange={onColorFamilyChange}>
-        <SelectTrigger className="h-10">
+        <SelectTrigger className="h-10 bg-gray-800 dark:bg-gray-800 text-white dark:text-white border-gray-600 dark:border-gray-600 hover:bg-gray-700 dark:hover:bg-gray-700">
           <SelectValue placeholder="Color Family" />
         </SelectTrigger>
         <SelectContent className="z-[200]">

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -103,16 +102,25 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
   return (
     <Card className="p-6">
       <Tabs defaultValue="saved" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="saved">
+        <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-gray-800">
+          <TabsTrigger 
+            value="saved"
+            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+          >
             <Star className="h-4 w-4 mr-2" />
             Saved ({savedColors.length}/10)
           </TabsTrigger>
-          <TabsTrigger value="recent">
+          <TabsTrigger 
+            value="recent"
+            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+          >
             <Clock className="h-4 w-4 mr-2" />
             Recent
           </TabsTrigger>
-          <TabsTrigger value="palettes">
+          <TabsTrigger 
+            value="palettes"
+            className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+          >
             Palettes ({savedPalettes.length})
           </TabsTrigger>
         </TabsList>
