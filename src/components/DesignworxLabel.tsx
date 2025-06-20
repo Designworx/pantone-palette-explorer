@@ -6,7 +6,7 @@ export const DesignworxLabel = () => {
         href="https://www.designworx.ie"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200 text-xs font-medium"
+        className="inline-flex items-center gap-1 bg-white text-gray-800 px-3 py-2 rounded-md shadow-lg hover:shadow-xl transition-all duration-200 text-xs font-bold uppercase"
       >
         Made by
         <span className="underline underline-offset-2 decoration-1">Designworx</span>
