@@ -46,7 +46,7 @@ export const ColorGrid = ({
   return (
     <>
       {/* Results Count */}
-      <div className="text-center mb-6">
+      <div className="text-center mb-6 mt-8">
         <p className="text-gray-600">
           Showing {displayedColors.length} of {totalCount} colors
           {colorFamily !== 'All' && ` in ${colorFamily}`}
