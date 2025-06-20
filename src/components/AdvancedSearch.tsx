@@ -1,10 +1,12 @@
+
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Search, Palette, Info } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Search, Palette, Info, ChevronDown, ChevronUp } from 'lucide-react';
 import { findNearestPantones } from '@/utils/pantoneUtils';
 import { PantoneColor } from '@/data/pantoneData';
 
@@ -31,6 +33,7 @@ export const AdvancedSearch = ({
 }: AdvancedSearchProps) => {
   const [hexInput, setHexInput] = useState('');
   const [openPopover, setOpenPopover] = useState<string | null>(null);
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
   
   const handleFindNearest = () => {
     if (hexInput) {
@@ -116,57 +119,83 @@ export const AdvancedSearch = ({
           </div>
         </div>
 
-        {/* Filters Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4">
-          <div className="flex items-center gap-2">
-            <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
-            <Select value={colorFamily} onValueChange={onColorFamilyChange}>
-              <SelectTrigger className="h-10">
-                <SelectValue placeholder="Color Family" />
-              </SelectTrigger>
-              <SelectContent>
-                {colorFamilies.map(family => <SelectItem key={family} value={family}>{family}</SelectItem>)}
-              </SelectContent>
-            </Select>
+        {/* More/Less Options Button */}
+        <Collapsible open={showMoreOptions} onOpenChange={setShowMoreOptions}>
+          <div className="flex justify-center">
+            <CollapsibleTrigger asChild>
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2 text-sm"
+              >
+                {showMoreOptions ? (
+                  <>
+                    Less options
+                    <ChevronUp className="h-4 w-4" />
+                  </>
+                ) : (
+                  <>
+                    More options
+                    <ChevronDown className="h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </CollapsibleTrigger>
           </div>
 
-          <div className="flex items-center gap-2">
-            <InfoIcon content="Sort results by different criteria" popoverId="sortBy" />
-            <Select value={sortBy} onValueChange={onSortChange}>
-              <SelectTrigger className="h-10">
-                <SelectValue placeholder="Sort By" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="name">Name</SelectItem>
-                <SelectItem value="lightness">Lightness</SelectItem>
-                <SelectItem value="chroma">Chroma</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Collapsible Filters */}
+          <CollapsibleContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+              <div className="flex items-center gap-2">
+                <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
+                <Select value={colorFamily} onValueChange={onColorFamilyChange}>
+                  <SelectTrigger className="h-10">
+                    <SelectValue placeholder="Color Family" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {colorFamilies.map(family => <SelectItem key={family} value={family}>{family}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
 
-          <div className="flex items-center gap-2">
-            <InfoIcon content="Find closest Pantone matches for hex color" popoverId="nearestMatch" />
-            <div className="flex flex-1">
-              <Input 
-                type="text" 
-                placeholder="Enter hex color (#FF0000)" 
-                value={hexInput} 
-                onChange={(e) => setHexInput(e.target.value)}
-                className="h-10 rounded-r-none border-r-0 focus:z-10" 
-              />
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button onClick={handleFindNearest} className="h-10 px-3 rounded-l-none border-l-0">
-                    <Palette className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                  <p>Find nearest Pantone matches</p>
-                </TooltipContent>
-              </Tooltip>
+              <div className="flex items-center gap-2">
+                <InfoIcon content="Sort results by different criteria" popoverId="sortBy" />
+                <Select value={sortBy} onValueChange={onSortChange}>
+                  <SelectTrigger className="h-10">
+                    <SelectValue placeholder="Sort By" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="name">Name</SelectItem>
+                    <SelectItem value="lightness">Lightness</SelectItem>
+                    <SelectItem value="chroma">Chroma</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <InfoIcon content="Find closest Pantone matches for hex color" popoverId="nearestMatch" />
+                <div className="flex flex-1">
+                  <Input 
+                    type="text" 
+                    placeholder="Enter hex color (#FF0000)" 
+                    value={hexInput} 
+                    onChange={(e) => setHexInput(e.target.value)}
+                    className="h-10 rounded-r-none border-r-0 focus:z-10" 
+                  />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={handleFindNearest} className="h-10 px-3 rounded-l-none border-l-0">
+                        <Palette className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-gray-800 text-white border-gray-700">
+                      <p>Find nearest Pantone matches</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
       </div>
     </TooltipProvider>;
 };
