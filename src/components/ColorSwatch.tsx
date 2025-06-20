@@ -79,14 +79,12 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           className="h-32 w-full relative transition-all duration-300"
           style={{ backgroundColor: color.HEX }}
         >
-          {/* Heart button positioned relative to its parent with reduced z-index */}
+          {/* Heart button - always visible on mobile/tablet, hover on desktop */}
           <button
             className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-[1] ${
               colorIsSaved 
                 ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
-                : isHovered 
-                  ? 'opacity-100 bg-white/20 backdrop-blur-sm hover:bg-white/40' 
-                  : 'opacity-0'
+                : 'opacity-100 md:opacity-0 bg-white/20 backdrop-blur-sm hover:bg-white/40 md:hover:opacity-100'
             }`}
             onClick={(e) => {
               e.preventDefault();
