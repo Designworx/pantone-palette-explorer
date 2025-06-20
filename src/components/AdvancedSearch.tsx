@@ -1,13 +1,14 @@
+
 import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Search, Palette, Info, ChevronDown, ChevronUp } from 'lucide-react';
-import { findNearestPantones } from '@/utils/pantoneUtils';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { PantoneColor } from '@/data/pantoneData';
+import { MainSearchInput } from './MainSearchInput';
+import { ColorFamilyFilter } from './ColorFamilyFilter';
+import { SortOptions } from './SortOptions';
+import { HexColorMatcher } from './HexColorMatcher';
 
 interface AdvancedSearchProps {
   searchTerm: string;
@@ -30,26 +31,8 @@ export const AdvancedSearch = ({
   onSortChange,
   onNearestMatch
 }: AdvancedSearchProps) => {
-  const [hexInput, setHexInput] = useState('');
   const [openPopover, setOpenPopover] = useState<string | null>(null);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
-  
-  const handleFindNearest = () => {
-    if (hexInput) {
-      // Normalize hex input - add # if not present and ensure proper format
-      let normalizedHex = hexInput.trim();
-      if (!normalizedHex.startsWith('#')) {
-        normalizedHex = '#' + normalizedHex;
-      }
-      const nearest = findNearestPantones(normalizedHex, 3);
-      onNearestMatch(nearest);
-    }
-  };
-
-  const handleHexInputChange = (value: string) => {
-    // Allow user to type with or without #, but don't force it in the display
-    setHexInput(value);
-  };
   
   const handlePopoverChange = (popoverId: string, isOpen: boolean) => {
     if (isOpen) {
@@ -69,64 +52,17 @@ export const AdvancedSearch = ({
       if (sortBy !== 'name') {
         onSortChange('name');
       }
-      if (hexInput) {
-        setHexInput('');
-      }
     }
   };
-  
-  const colorFamilies = ['All', 'Reds', 'Yellows', 'Greens', 'Blues', 'Cyans', 'Magentas', 'Neutrals'];
-
-  // Helper component for mobile-friendly info icons
-  const InfoIcon = ({
-    content,
-    popoverId
-  }: {
-    content: string;
-    popoverId: string;
-  }) => <>
-      {/* Desktop tooltip */}
-      <div className="hidden md:block">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-help flex-shrink-0 transition-colors" />
-          </TooltipTrigger>
-          <TooltipContent className="bg-gray-800 text-white border-gray-700">
-            <p>{content}</p>
-          </TooltipContent>
-        </Tooltip>
-      </div>
-      
-      {/* Mobile/tablet popover */}
-      <div className="md:hidden">
-        <Popover open={openPopover === popoverId} onOpenChange={isOpen => handlePopoverChange(popoverId, isOpen)}>
-          <PopoverTrigger asChild>
-            <button className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation">
-              <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer flex-shrink-0 transition-colors" />
-            </button>
-          </PopoverTrigger>
-          <PopoverContent className="bg-gray-800 text-white border-gray-700 w-64">
-            <p className="text-sm">{content}</p>
-          </PopoverContent>
-        </Popover>
-      </div>
-    </>;
     
-  return <TooltipProvider>
+  return (
+    <TooltipProvider>
       <div className="space-y-8 sticky top-0 py-8 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0 z-50">
         {/* Main Search - Made More Prominent */}
-        <div className="relative flex items-center justify-center">
-          <div className="relative w-full max-w-md">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-500 h-6 w-6 pointer-events-none" />
-            <Input 
-              type="text" 
-              placeholder="Search Pantone colors by name or number..." 
-              value={searchTerm} 
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="pl-14 h-16 text-xl font-medium border-3 border-blue-200 dark:border-blue-800 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 bg-white dark:bg-gray-800 shadow-lg rounded-xl placeholder:text-gray-400 dark:placeholder:text-gray-500" 
-            />
-          </div>
-        </div>
+        <MainSearchInput 
+          searchTerm={searchTerm}
+          onSearchChange={handleSearchChange}
+        />
 
         {/* More/Less Options Button */}
         <Collapsible open={showMoreOptions} onOpenChange={setShowMoreOptions}>
@@ -154,57 +90,29 @@ export const AdvancedSearch = ({
           {/* Collapsible Filters with smooth slide animation */}
           <CollapsibleContent className="overflow-visible data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
-              <div className="flex items-center gap-2">
-                <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
-                <Select value={colorFamily} onValueChange={onColorFamilyChange}>
-                  <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Color Family" />
-                  </SelectTrigger>
-                  <SelectContent className="z-[200]">
-                    {colorFamilies.map(family => <SelectItem key={family} value={family}>{family}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </div>
+              <ColorFamilyFilter
+                colorFamily={colorFamily}
+                onColorFamilyChange={onColorFamilyChange}
+                openPopover={openPopover}
+                onPopoverChange={handlePopoverChange}
+              />
 
-              <div className="flex items-center gap-2">
-                <InfoIcon content="Sort results by different criteria" popoverId="sortBy" />
-                <Select value={sortBy} onValueChange={onSortChange}>
-                  <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Sort By" />
-                  </SelectTrigger>
-                  <SelectContent className="z-[200]">
-                    <SelectItem value="name">Name</SelectItem>
-                    <SelectItem value="lightness">Lightness</SelectItem>
-                    <SelectItem value="chroma">Chroma</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <SortOptions
+                sortBy={sortBy}
+                onSortChange={onSortChange}
+                openPopover={openPopover}
+                onPopoverChange={handlePopoverChange}
+              />
 
-              <div className="flex items-center gap-2">
-                <InfoIcon content="Find closest Pantone matches for hex color" popoverId="nearestMatch" />
-                <div className="flex flex-1">
-                  <Input 
-                    type="text" 
-                    placeholder="Enter hex color (FF0000 or #FF0000)" 
-                    value={hexInput} 
-                    onChange={(e) => handleHexInputChange(e.target.value)}
-                    className="h-10 rounded-r-none border-r-0 focus:z-10" 
-                  />
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button onClick={handleFindNearest} className="h-10 px-3 rounded-l-none border-l-0">
-                        <Palette className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                      <p>Find nearest Pantone matches</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              </div>
+              <HexColorMatcher
+                onNearestMatch={onNearestMatch}
+                openPopover={openPopover}
+                onPopoverChange={handlePopoverChange}
+              />
             </div>
           </CollapsibleContent>
         </Collapsible>
       </div>
-    </TooltipProvider>;
+    </TooltipProvider>
+  );
 };
