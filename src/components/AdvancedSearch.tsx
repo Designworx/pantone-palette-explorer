@@ -79,7 +79,7 @@ export const AdvancedSearch = ({
       </div>
     </>;
   return <TooltipProvider>
-      <div className="space-y-6 sticky top-0 z-50 py-6 px-0 bg-slate-50">
+      <div className="space-y-6 sticky top-0 z-50 py-6 bg-slate-50 px-[10px]">
         {/* Main Search */}
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
