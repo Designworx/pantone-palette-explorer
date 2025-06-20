@@ -1,7 +1,7 @@
 
 import { Loader } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface AppLoaderProps {
   onDataLoaded?: (data: any) => void;
@@ -10,10 +10,18 @@ interface AppLoaderProps {
 export const AppLoader = ({ onDataLoaded }: AppLoaderProps) => {
   const [progress, setProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Initializing application...');
+  const loadingRef = useRef(false);
 
   console.log('AppLoader component rendering, progress:', progress);
 
   useEffect(() => {
+    // Prevent double execution
+    if (loadingRef.current) {
+      console.log('AppLoader already loading, skipping');
+      return;
+    }
+    
+    loadingRef.current = true;
     console.log('AppLoader useEffect starting');
     
     const loadData = async () => {
@@ -45,14 +53,14 @@ export const AppLoader = ({ onDataLoaded }: AppLoaderProps) => {
         setProgress(80);
         setLoadingStage('Setting up interface...');
         
-        // Pass the loaded data to parent
-        console.log('Calling onDataLoaded with data');
-        onDataLoaded?.(PantoneData);
-        
         await new Promise(resolve => setTimeout(resolve, 200));
         
         setProgress(100);
         setLoadingStage('Ready!');
+        
+        // Pass the loaded data to parent
+        console.log('Calling onDataLoaded with data');
+        onDataLoaded?.(PantoneData);
         
       } catch (error) {
         console.error('Error loading Pantone data:', error);
