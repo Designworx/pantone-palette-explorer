@@ -1,6 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { PantoneColor } from '@/data/pantoneData';
+import { toast } from '@/hooks/use-toast';
 
 export interface SavedPalette {
   id: string;
@@ -19,6 +20,7 @@ interface PaletteContextType {
   savePalette: (name: string, colors: PantoneColor[]) => string;
   deletePalette: (id: string) => void;
   isSaved: (colorName: string) => boolean;
+  clearSavedColors: () => void;
 }
 
 const PaletteContext = createContext<PaletteContextType | undefined>(undefined);
@@ -88,9 +90,14 @@ export const PaletteProvider = ({ children }: { children: ReactNode }) => {
         return prev;
       }
       
-      // If we're at capacity (10), don't add more
+      // If we're at capacity (10), show toast and don't add more
       if (prev.length >= 10) {
         console.log('Cannot add more colors: maximum of 10 reached');
+        toast({
+          title: "Palette limit reached",
+          description: "You can save up to 10 colors per palette. Create a new palette to save more colors.",
+          variant: "destructive"
+        });
         return prev;
       }
       
@@ -129,6 +136,10 @@ export const PaletteProvider = ({ children }: { children: ReactNode }) => {
     setSavedPalettes(prev => prev.filter(p => p.id !== id));
   };
 
+  const clearSavedColors = () => {
+    setSavedColors([]);
+  };
+
   const isSaved = (colorName: string) => {
     return savedColors.some(c => c.PANTONENAME === colorName);
   };
@@ -143,7 +154,8 @@ export const PaletteProvider = ({ children }: { children: ReactNode }) => {
       addToRecent,
       savePalette,
       deletePalette,
-      isSaved
+      isSaved,
+      clearSavedColors
     }}>
       {children}
     </PaletteContext.Provider>

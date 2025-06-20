@@ -1,12 +1,11 @@
 
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Star, Trash2, Download, Clock, Heart } from 'lucide-react';
+import { Star, Trash2, Download, Clock, Heart, Plus } from 'lucide-react';
 import { usePalette } from '@/hooks/usePalette';
 import { PantoneColor } from '@/data/pantoneData';
 import { toast } from '@/hooks/use-toast';
@@ -16,7 +15,7 @@ interface PaletteManagerProps {
 }
 
 export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
-  const { savedColors, savedPalettes, recentColors, removeFromSaved, savePalette, deletePalette } = usePalette();
+  const { savedColors, savedPalettes, recentColors, removeFromSaved, savePalette, deletePalette, clearSavedColors } = usePalette();
   const [newPaletteName, setNewPaletteName] = useState('');
 
   const handleSavePalette = () => {
@@ -39,10 +38,11 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
     }
 
     savePalette(newPaletteName, savedColors);
+    clearSavedColors(); // Clear saved colors after creating palette
     setNewPaletteName('');
     toast({
       title: "Palette saved",
-      description: `"${newPaletteName}" saved with ${savedColors.length} colors`,
+      description: `"${newPaletteName}" saved with ${savedColors.length} colors. You can now start a new palette!`,
     });
   };
 
@@ -132,21 +132,33 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
 
         <TabsContent value="saved" className="space-y-4">
           {savedColors.length > 0 && (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Enter palette name..."
-                value={newPaletteName}
-                onChange={(e) => setNewPaletteName(e.target.value)}
-                className="flex-1"
-              />
-              <Button onClick={handleSavePalette}>Save Palette</Button>
-              <Button
-                variant="outline"
-                onClick={() => exportPalette(savedColors, 'My_Saved_Colors')}
-              >
-                <Download className="h-4 w-4" />
-              </Button>
-            </div>
+            <>
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Enter palette name..."
+                  value={newPaletteName}
+                  onChange={(e) => setNewPaletteName(e.target.value)}
+                  className="flex-1"
+                />
+                <Button onClick={handleSavePalette}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Save Palette
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => exportPalette(savedColors, 'My_Saved_Colors')}
+                >
+                  <Download className="h-4 w-4" />
+                </Button>
+              </div>
+              {savedColors.length === 10 && (
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                  <p className="text-sm text-amber-800">
+                    <strong>Palette limit reached!</strong> You have 10 colors saved. Create a palette to start collecting new colors.
+                  </p>
+                </div>
+              )}
+            </>
           )}
           
           {savedColors.length > 0 ? (
@@ -156,6 +168,7 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
               <Heart className="h-12 w-12 mx-auto mb-2 opacity-50" />
               <p>No saved colors yet</p>
               <p className="text-sm">Click the heart icon on any color to save it</p>
+              <p className="text-xs mt-2 text-gray-400">You can save up to 10 colors per palette</p>
             </div>
           )}
         </TabsContent>
@@ -214,4 +227,3 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
     </Card>
   );
 };
-
