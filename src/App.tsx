@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +8,7 @@ import { AppLoader } from "@/components/AppLoader";
 import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PaletteProvider } from "@/contexts/PaletteContext";
+import { DesignworxLabel } from "@/components/DesignworxLabel";
 
 // Lazy load the Index component
 const Index = lazy(() => import("./pages/Index"));
@@ -67,6 +67,7 @@ const App = () => {
                 </Routes>
               </Suspense>
             </BrowserRouter>
+            <DesignworxLabel />
           </PaletteProvider>
         </TooltipProvider>
       </QueryClientProvider>
