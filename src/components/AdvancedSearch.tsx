@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -37,9 +36,19 @@ export const AdvancedSearch = ({
   
   const handleFindNearest = () => {
     if (hexInput) {
-      const nearest = findNearestPantones(hexInput, 3);
+      // Normalize hex input - add # if not present and ensure proper format
+      let normalizedHex = hexInput.trim();
+      if (!normalizedHex.startsWith('#')) {
+        normalizedHex = '#' + normalizedHex;
+      }
+      const nearest = findNearestPantones(normalizedHex, 3);
       onNearestMatch(nearest);
     }
+  };
+
+  const handleHexInputChange = (value: string) => {
+    // Allow user to type with or without #, but don't force it in the display
+    setHexInput(value);
   };
   
   const handlePopoverChange = (popoverId: string, isOpen: boolean) => {
@@ -176,9 +185,9 @@ export const AdvancedSearch = ({
                 <div className="flex flex-1">
                   <Input 
                     type="text" 
-                    placeholder="Enter hex color (#FF0000)" 
+                    placeholder="Enter hex color (FF0000 or #FF0000)" 
                     value={hexInput} 
-                    onChange={(e) => setHexInput(e.target.value)}
+                    onChange={(e) => handleHexInputChange(e.target.value)}
                     className="h-10 rounded-r-none border-r-0 focus:z-10" 
                   />
                   <Tooltip>
