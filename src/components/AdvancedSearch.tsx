@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Search, Palette, Info, ChevronDown, ChevronUp, Settings2 } from 'lucide-react';
+import { Search, Palette, Info, ChevronDown, ChevronUp } from 'lucide-react';
 import { findNearestPantones } from '@/utils/pantoneUtils';
 import { PantoneColor } from '@/data/pantoneData';
 
@@ -119,85 +119,78 @@ export const AdvancedSearch = ({
           </div>
         </div>
 
-        {/* Enhanced More/Less Options Button */}
+        {/* More/Less Options Button */}
         <Collapsible open={showMoreOptions} onOpenChange={setShowMoreOptions}>
           <div className="flex justify-center">
             <CollapsibleTrigger asChild>
               <Button 
-                variant="ghost" 
-                size="sm"
-                className="group flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
-                aria-expanded={showMoreOptions}
-                aria-label={showMoreOptions ? "Hide advanced search options" : "Show advanced search options"}
+                variant="outline" 
+                className="flex items-center gap-2 text-sm"
               >
-                <Settings2 className="h-4 w-4 transition-transform duration-200 group-hover:rotate-12" />
-                <span className="select-none">
-                  {showMoreOptions ? "Less options" : "More options"}
-                </span>
-                <div className="transition-transform duration-200">
-                  {showMoreOptions ? (
+                {showMoreOptions ? (
+                  <>
+                    Less options
                     <ChevronUp className="h-4 w-4" />
-                  ) : (
+                  </>
+                ) : (
+                  <>
+                    More options
                     <ChevronDown className="h-4 w-4" />
-                  )}
-                </div>
+                  </>
+                )}
               </Button>
             </CollapsibleTrigger>
           </div>
 
-          {/* Collapsible Filters with improved animation */}
-          <CollapsibleContent className="data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up overflow-hidden">
-            <div className="pt-4">
-              <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="flex items-center gap-2">
-                    <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
-                    <Select value={colorFamily} onValueChange={onColorFamilyChange}>
-                      <SelectTrigger className="h-10">
-                        <SelectValue placeholder="Color Family" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {colorFamilies.map(family => <SelectItem key={family} value={family}>{family}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
-                  </div>
+          {/* Collapsible Filters */}
+          <CollapsibleContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+              <div className="flex items-center gap-2">
+                <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
+                <Select value={colorFamily} onValueChange={onColorFamilyChange}>
+                  <SelectTrigger className="h-10">
+                    <SelectValue placeholder="Color Family" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {colorFamilies.map(family => <SelectItem key={family} value={family}>{family}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
 
-                  <div className="flex items-center gap-2">
-                    <InfoIcon content="Sort results by different criteria" popoverId="sortBy" />
-                    <Select value={sortBy} onValueChange={onSortChange}>
-                      <SelectTrigger className="h-10">
-                        <SelectValue placeholder="Sort By" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="name">Name</SelectItem>
-                        <SelectItem value="lightness">Lightness</SelectItem>
-                        <SelectItem value="chroma">Chroma</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+              <div className="flex items-center gap-2">
+                <InfoIcon content="Sort results by different criteria" popoverId="sortBy" />
+                <Select value={sortBy} onValueChange={onSortChange}>
+                  <SelectTrigger className="h-10">
+                    <SelectValue placeholder="Sort By" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="name">Name</SelectItem>
+                    <SelectItem value="lightness">Lightness</SelectItem>
+                    <SelectItem value="chroma">Chroma</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
-                  <div className="flex items-center gap-2">
-                    <InfoIcon content="Find closest Pantone matches for hex color" popoverId="nearestMatch" />
-                    <div className="flex flex-1">
-                      <Input 
-                        type="text" 
-                        placeholder="Enter hex color (#FF0000)" 
-                        value={hexInput} 
-                        onChange={(e) => setHexInput(e.target.value)}
-                        className="h-10 rounded-r-none border-r-0 focus:z-10" 
-                      />
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button onClick={handleFindNearest} className="h-10 px-3 rounded-l-none border-l-0">
-                            <Palette className="h-4 w-4" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                          <p>Find nearest Pantone matches</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </div>
-                  </div>
+              <div className="flex items-center gap-2">
+                <InfoIcon content="Find closest Pantone matches for hex color" popoverId="nearestMatch" />
+                <div className="flex flex-1">
+                  <Input 
+                    type="text" 
+                    placeholder="Enter hex color (#FF0000)" 
+                    value={hexInput} 
+                    onChange={(e) => setHexInput(e.target.value)}
+                    className="h-10 rounded-r-none border-r-0 focus:z-10" 
+                  />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={handleFindNearest} className="h-10 px-3 rounded-l-none border-l-0">
+                        <Palette className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-gray-800 text-white border-gray-700">
+                      <p>Find nearest Pantone matches</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
             </div>
