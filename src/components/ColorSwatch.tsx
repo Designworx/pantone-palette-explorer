@@ -100,9 +100,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           >
             <Heart 
               className={`h-4 w-4 transition-all duration-200 ${
-                colorIsSaved ? 'fill-current scale-110 text-red-600' : ''
+                colorIsSaved ? 'fill-current scale-110 text-gray-600' : ''
               }`} 
-              style={{ color: colorIsSaved ? '#dc2626' : textColor }} 
+              style={{ color: colorIsSaved ? '#4b5563' : textColor }} 
             />
           </button>
 
