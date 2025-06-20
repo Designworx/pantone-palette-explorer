@@ -49,9 +49,17 @@ export const AdvancedSearch = ({
 
   const handleSearchChange = (value: string) => {
     onSearchChange(value);
-    // Reset color family to "All" when user starts typing
-    if (value && colorFamily !== 'All') {
-      onColorFamilyChange('All');
+    // Reset all filters to defaults when user starts typing
+    if (value) {
+      if (colorFamily !== 'All') {
+        onColorFamilyChange('All');
+      }
+      if (sortBy !== 'name') {
+        onSortChange('name');
+      }
+      if (hexInput) {
+        setHexInput('');
+      }
     }
   };
   
