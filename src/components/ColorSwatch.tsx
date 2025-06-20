@@ -93,6 +93,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                       : 'opacity-0'
                 }`}
                 onClick={toggleSaved}
+                onMouseDown={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
               >
                 <Heart 
                   className={`h-4 w-4 transition-all duration-200 ${
