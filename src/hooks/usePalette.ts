@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect, useRef } from 'react';
 import { PantoneColor } from '@/data/pantoneData';
 
 export interface SavedPalette {
@@ -12,6 +13,9 @@ export const usePalette = () => {
   const [savedColors, setSavedColors] = useState<PantoneColor[]>([]);
   const [savedPalettes, setSavedPalettes] = useState<SavedPalette[]>([]);
   const [recentColors, setRecentColors] = useState<PantoneColor[]>([]);
+  
+  // Use refs to track if we're in the initial load phase
+  const initialLoadComplete = useRef(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -31,20 +35,29 @@ export const usePalette = () => {
     if (recent) {
       setRecentColors(JSON.parse(recent));
     }
+    
+    // Mark initial load as complete
+    initialLoadComplete.current = true;
   }, []);
 
-  // Save to localStorage whenever state changes
+  // Save to localStorage whenever state changes (but not on initial load)
   useEffect(() => {
-    console.log('Saving to localStorage:', savedColors.length, 'colors');
-    localStorage.setItem('pantone-saved-colors', JSON.stringify(savedColors));
+    if (initialLoadComplete.current) {
+      console.log('Saving to localStorage:', savedColors.length, 'colors');
+      localStorage.setItem('pantone-saved-colors', JSON.stringify(savedColors));
+    }
   }, [savedColors]);
 
   useEffect(() => {
-    localStorage.setItem('pantone-saved-palettes', JSON.stringify(savedPalettes));
+    if (initialLoadComplete.current) {
+      localStorage.setItem('pantone-saved-palettes', JSON.stringify(savedPalettes));
+    }
   }, [savedPalettes]);
 
   useEffect(() => {
-    localStorage.setItem('pantone-recent-colors', JSON.stringify(recentColors));
+    if (initialLoadComplete.current) {
+      localStorage.setItem('pantone-recent-colors', JSON.stringify(recentColors));
+    }
   }, [recentColors]);
 
   const addToSaved = (color: PantoneColor) => {
