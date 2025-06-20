@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -60,7 +59,7 @@ export const AdvancedSearch = ({
         {/* Filters Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-2.5">
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-2">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Info className="h-4 w-4 text-gray-500 cursor-help" />
@@ -69,9 +68,6 @@ export const AdvancedSearch = ({
                   <p>Filter by color family group</p>
                 </TooltipContent>
               </Tooltip>
-              <label className="text-sm font-medium text-gray-600">
-                Color Family
-              </label>
             </div>
             <Select value={colorFamily} onValueChange={onColorFamilyChange}>
               <SelectTrigger className="h-10">
@@ -86,7 +82,7 @@ export const AdvancedSearch = ({
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-2">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Info className="h-4 w-4 text-gray-500 cursor-help" />
@@ -95,9 +91,6 @@ export const AdvancedSearch = ({
                   <p>Sort results by different criteria</p>
                 </TooltipContent>
               </Tooltip>
-              <label className="text-sm font-medium text-gray-600">
-                Sort By
-              </label>
             </div>
             <Select value={sortBy} onValueChange={onSortChange}>
               <SelectTrigger className="h-10">
@@ -112,7 +105,7 @@ export const AdvancedSearch = ({
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mb-2">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Info className="h-4 w-4 text-gray-500 cursor-help" />
@@ -121,9 +114,6 @@ export const AdvancedSearch = ({
                   <p>Find closest Pantone matches for hex color</p>
                 </TooltipContent>
               </Tooltip>
-              <label className="text-sm font-medium text-gray-600">
-                Hex Match
-              </label>
             </div>
             <div className="flex">
               <Input
