@@ -95,8 +95,18 @@ const Index = ({ preloadedData }: IndexProps) => {
         {/* Main Interface */}
         <Tabs defaultValue="search" className="w-full">
           <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-8">
-            <TabsTrigger value="search">Search & Browse</TabsTrigger>
-            <TabsTrigger value="palettes">My Palettes</TabsTrigger>
+            <TabsTrigger 
+              value="search"
+              className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+            >
+              Search & Browse
+            </TabsTrigger>
+            <TabsTrigger 
+              value="palettes"
+              className="data-[state=active]:bg-gray-800 data-[state=active]:text-white dark:data-[state=active]:bg-gray-600 dark:data-[state=active]:text-white"
+            >
+              My Palettes
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="search">
