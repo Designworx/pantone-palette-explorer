@@ -1,10 +1,10 @@
 
-
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Search, Palette, Info } from 'lucide-react';
 import { findNearestPantones } from '@/utils/pantoneUtils';
 import { PantoneColor } from '@/data/pantoneData';
@@ -29,6 +29,9 @@ export const AdvancedSearch = ({
   onNearestMatch
 }: AdvancedSearchProps) => {
   const [hexInput, setHexInput] = useState('');
+  const [colorFamilyPopoverOpen, setColorFamilyPopoverOpen] = useState(false);
+  const [sortByPopoverOpen, setSortByPopoverOpen] = useState(false);
+  const [nearestMatchPopoverOpen, setNearestMatchPopoverOpen] = useState(false);
 
   const handleFindNearest = () => {
     if (hexInput) {
@@ -40,6 +43,41 @@ export const AdvancedSearch = ({
   const colorFamilies = [
     'All', 'Reds', 'Yellows', 'Greens', 'Blues', 'Cyans', 'Magentas', 'Neutrals'
   ];
+
+  // Helper component for mobile-friendly info icons
+  const InfoIcon = ({ content, popoverOpen, setPopoverOpen }: { 
+    content: string; 
+    popoverOpen: boolean; 
+    setPopoverOpen: (open: boolean) => void; 
+  }) => (
+    <>
+      {/* Desktop tooltip */}
+      <div className="hidden md:block">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Info className="h-6 w-6 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
+          </TooltipTrigger>
+          <TooltipContent className="bg-gray-800 text-white border-gray-700">
+            <p>{content}</p>
+          </TooltipContent>
+        </Tooltip>
+      </div>
+      
+      {/* Mobile/tablet popover */}
+      <div className="md:hidden">
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+          <PopoverTrigger asChild>
+            <button className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation">
+              <Info className="h-6 w-6 text-blue-600 hover:text-blue-700 cursor-pointer flex-shrink-0 transition-colors" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="bg-gray-800 text-white border-gray-700 w-64">
+            <p className="text-sm">{content}</p>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </>
+  );
 
   return (
     <TooltipProvider>
@@ -61,14 +99,11 @@ export const AdvancedSearch = ({
         {/* Filters Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-2.5">
           <div className="flex items-center gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="h-5 w-5 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
-              </TooltipTrigger>
-              <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                <p>Filter by color family group</p>
-              </TooltipContent>
-            </Tooltip>
+            <InfoIcon 
+              content="Filter by color family group"
+              popoverOpen={colorFamilyPopoverOpen}
+              setPopoverOpen={setColorFamilyPopoverOpen}
+            />
             <Select value={colorFamily} onValueChange={onColorFamilyChange}>
               <SelectTrigger className="h-10">
                 <SelectValue placeholder="Color Family" />
@@ -82,14 +117,11 @@ export const AdvancedSearch = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="h-5 w-5 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
-              </TooltipTrigger>
-              <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                <p>Sort results by different criteria</p>
-              </TooltipContent>
-            </Tooltip>
+            <InfoIcon 
+              content="Sort results by different criteria"
+              popoverOpen={sortByPopoverOpen}
+              setPopoverOpen={setSortByPopoverOpen}
+            />
             <Select value={sortBy} onValueChange={onSortChange}>
               <SelectTrigger className="h-10">
                 <SelectValue placeholder="Sort By" />
@@ -103,14 +135,11 @@ export const AdvancedSearch = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="h-5 w-5 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
-              </TooltipTrigger>
-              <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                <p>Find closest Pantone matches for hex color</p>
-              </TooltipContent>
-            </Tooltip>
+            <InfoIcon 
+              content="Find closest Pantone matches for hex color"
+              popoverOpen={nearestMatchPopoverOpen}
+              setPopoverOpen={setNearestMatchPopoverOpen}
+            />
             <div className="flex flex-1">
               <Input
                 type="text"
@@ -139,4 +168,3 @@ export const AdvancedSearch = ({
     </TooltipProvider>
   );
 };
-
