@@ -105,14 +105,14 @@ export const AdvancedSearch = ({
         </div>
 
         {/* Filters Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-4">
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4">
+          <div className="flex items-center gap-2">
             <InfoIcon 
               content="Filter by color family group"
               popoverId="colorFamily"
             />
             <Select value={colorFamily} onValueChange={onColorFamilyChange}>
-              <SelectTrigger className="h-11">
+              <SelectTrigger className="h-10">
                 <SelectValue placeholder="Color Family" />
               </SelectTrigger>
               <SelectContent>
@@ -123,13 +123,13 @@ export const AdvancedSearch = ({
             </Select>
           </div>
 
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+          <div className="flex items-center gap-2">
             <InfoIcon 
               content="Sort results by different criteria"
               popoverId="sortBy"
             />
             <Select value={sortBy} onValueChange={onSortChange}>
-              <SelectTrigger className="h-11">
+              <SelectTrigger className="h-10">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>
@@ -140,7 +140,7 @@ export const AdvancedSearch = ({
             </Select>
           </div>
 
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+          <div className="flex items-center gap-2">
             <InfoIcon 
               content="Find closest Pantone matches for hex color"
               popoverId="nearestMatch"
@@ -151,13 +151,13 @@ export const AdvancedSearch = ({
                 placeholder="Enter hex color (#FF0000)"
                 value={hexInput}
                 onChange={(e) => setHexInput(e.target.value)}
-                className="h-11 rounded-r-none border-r-0 focus:z-10"
+                className="h-10 rounded-r-none border-r-0 focus:z-10"
               />
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button 
                     onClick={handleFindNearest} 
-                    className="h-11 px-3 rounded-l-none border-l-0"
+                    className="h-10 px-3 rounded-l-none border-l-0"
                   >
                     <Palette className="h-4 w-4" />
                   </Button>
