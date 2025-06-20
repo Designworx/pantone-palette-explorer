@@ -92,13 +92,13 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           className="h-32 w-full relative transition-all duration-300"
           style={{ backgroundColor: color.HEX }}
         >
-          {/* Heart button with reduced z-index */}
+          {/* Heart button with lower z-index */}
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
-                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 z-10 ${
+                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 z-0 ${
                   colorIsSaved 
                     ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
                     : isHovered 
