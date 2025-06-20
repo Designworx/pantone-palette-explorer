@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -125,26 +124,26 @@ export const AdvancedSearch = ({
             <CollapsibleTrigger asChild>
               <Button 
                 variant="outline" 
-                className="flex items-center gap-2 text-sm"
+                className="flex items-center gap-2 text-sm transition-all duration-200"
               >
                 {showMoreOptions ? (
                   <>
                     Less options
-                    <ChevronUp className="h-4 w-4" />
+                    <ChevronUp className="h-4 w-4 transition-transform duration-200" />
                   </>
                 ) : (
                   <>
                     More options
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200" />
                   </>
                 )}
               </Button>
             </CollapsibleTrigger>
           </div>
 
-          {/* Collapsible Filters */}
-          <CollapsibleContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+          {/* Collapsible Filters with smooth animation */}
+          <CollapsibleContent className="overflow-hidden transition-all duration-300 ease-in-out data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 animate-fade-in">
               <div className="flex items-center gap-2">
                 <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
                 <Select value={colorFamily} onValueChange={onColorFamilyChange}>
