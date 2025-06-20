@@ -47,12 +47,6 @@ export const AdvancedSearch = ({
       setOpenPopover(null);
     }
   };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onSearchChange(e.target.value);
-  };
   
   const colorFamilies = ['All', 'Reds', 'Yellows', 'Greens', 'Blues', 'Cyans', 'Magentas', 'Neutrals'];
 
@@ -101,7 +95,7 @@ export const AdvancedSearch = ({
               type="text" 
               placeholder="Search Pantone colors by name or number..." 
               value={searchTerm} 
-              onChange={handleSearchChange}
+              onChange={(e) => onSearchChange(e.target.value)}
               className="pl-10 h-12 text-lg border-2 border-gray-200 focus:border-blue-500 transition-colors" 
             />
           </div>
