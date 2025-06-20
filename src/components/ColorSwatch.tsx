@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -79,30 +80,30 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           style={{ backgroundColor: color.HEX }}
         >
           {/* Heart button positioned relative to its parent */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center ${
-                  colorIsSaved 
-                    ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
-                    : isHovered 
-                      ? 'opacity-100 bg-white/20 backdrop-blur-sm hover:bg-white/40' 
-                      : 'opacity-0'
-                }`}
-                onClick={toggleSaved}
-              >
-                <Heart 
-                  className={`h-4 w-4 transition-all duration-200 ${
-                    colorIsSaved ? 'fill-current scale-110 text-red-600' : ''
-                  }`} 
-                  style={{ color: colorIsSaved ? '#dc2626' : textColor }} 
-                />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="left">
-              <p>{colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}</p>
-            </TooltipContent>
-          </Tooltip>
+          <button
+            className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-10 ${
+              colorIsSaved 
+                ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
+                : isHovered 
+                  ? 'opacity-100 bg-white/20 backdrop-blur-sm hover:bg-white/40' 
+                  : 'opacity-0'
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleSaved(e);
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onMouseUp={(e) => e.stopPropagation()}
+            title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            <Heart 
+              className={`h-4 w-4 transition-all duration-200 ${
+                colorIsSaved ? 'fill-current scale-110 text-red-600' : ''
+              }`} 
+              style={{ color: colorIsSaved ? '#dc2626' : textColor }} 
+            />
+          </button>
 
           {/* Hover overlay */}
           {isHovered && !colorIsSaved && (
