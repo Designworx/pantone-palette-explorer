@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -141,9 +142,9 @@ export const AdvancedSearch = ({
             </CollapsibleTrigger>
           </div>
 
-          {/* Collapsible Filters with smooth animation */}
-          <CollapsibleContent className="overflow-hidden transition-all duration-300 ease-in-out data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 animate-fade-in">
+          {/* Collapsible Filters with smooth slide animation */}
+          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
               <div className="flex items-center gap-2">
                 <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
                 <Select value={colorFamily} onValueChange={onColorFamilyChange}>
