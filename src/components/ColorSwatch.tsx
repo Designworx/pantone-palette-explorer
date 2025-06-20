@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -82,10 +81,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           {/* Heart button positioned relative to its parent */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 ${
+              <button
+                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center ${
                   colorIsSaved 
                     ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
                     : isHovered 
@@ -100,7 +97,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                   }`} 
                   style={{ color: colorIsSaved ? '#dc2626' : textColor }} 
                 />
-              </Button>
+              </button>
             </TooltipTrigger>
             <TooltipContent side="left">
               <p>{colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}</p>
