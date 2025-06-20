@@ -29,9 +29,7 @@ export const AdvancedSearch = ({
   onNearestMatch
 }: AdvancedSearchProps) => {
   const [hexInput, setHexInput] = useState('');
-  const [colorFamilyPopoverOpen, setColorFamilyPopoverOpen] = useState(false);
-  const [sortByPopoverOpen, setSortByPopoverOpen] = useState(false);
-  const [nearestMatchPopoverOpen, setNearestMatchPopoverOpen] = useState(false);
+  const [openPopover, setOpenPopover] = useState<string | null>(null);
 
   const handleFindNearest = () => {
     if (hexInput) {
@@ -40,15 +38,22 @@ export const AdvancedSearch = ({
     }
   };
 
+  const handlePopoverChange = (popoverId: string, isOpen: boolean) => {
+    if (isOpen) {
+      setOpenPopover(popoverId);
+    } else if (openPopover === popoverId) {
+      setOpenPopover(null);
+    }
+  };
+
   const colorFamilies = [
     'All', 'Reds', 'Yellows', 'Greens', 'Blues', 'Cyans', 'Magentas', 'Neutrals'
   ];
 
   // Helper component for mobile-friendly info icons
-  const InfoIcon = ({ content, popoverOpen, setPopoverOpen }: { 
+  const InfoIcon = ({ content, popoverId }: { 
     content: string; 
-    popoverOpen: boolean; 
-    setPopoverOpen: (open: boolean) => void; 
+    popoverId: string;
   }) => (
     <>
       {/* Desktop tooltip */}
@@ -65,7 +70,10 @@ export const AdvancedSearch = ({
       
       {/* Mobile/tablet popover */}
       <div className="md:hidden">
-        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+        <Popover 
+          open={openPopover === popoverId} 
+          onOpenChange={(isOpen) => handlePopoverChange(popoverId, isOpen)}
+        >
           <PopoverTrigger asChild>
             <button className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation">
               <Info className="h-6 w-6 text-blue-600 hover:text-blue-700 cursor-pointer flex-shrink-0 transition-colors" />
@@ -101,8 +109,7 @@ export const AdvancedSearch = ({
           <div className="flex items-center gap-2">
             <InfoIcon 
               content="Filter by color family group"
-              popoverOpen={colorFamilyPopoverOpen}
-              setPopoverOpen={setColorFamilyPopoverOpen}
+              popoverId="colorFamily"
             />
             <Select value={colorFamily} onValueChange={onColorFamilyChange}>
               <SelectTrigger className="h-10">
@@ -119,8 +126,7 @@ export const AdvancedSearch = ({
           <div className="flex items-center gap-2">
             <InfoIcon 
               content="Sort results by different criteria"
-              popoverOpen={sortByPopoverOpen}
-              setPopoverOpen={setSortByPopoverOpen}
+              popoverId="sortBy"
             />
             <Select value={sortBy} onValueChange={onSortChange}>
               <SelectTrigger className="h-10">
@@ -137,8 +143,7 @@ export const AdvancedSearch = ({
           <div className="flex items-center gap-2">
             <InfoIcon 
               content="Find closest Pantone matches for hex color"
-              popoverOpen={nearestMatchPopoverOpen}
-              setPopoverOpen={setNearestMatchPopoverOpen}
+              popoverId="nearestMatch"
             />
             <div className="flex flex-1">
               <Input
