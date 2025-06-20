@@ -3,15 +3,28 @@ import { hexToLab, calculateDeltaE, hexToRgb, rgbToLab } from './colorConversion
 
 // Store the preloaded data
 let cachedPantoneData: PantoneColor[] = [];
+let deduplicatedData: PantoneColor[] = [];
 
-// Function to set the preloaded data
+// Function to set the preloaded data and remove duplicates permanently
 export const setPantoneData = (data: PantoneColor[]) => {
   cachedPantoneData = data;
+  
+  // Remove duplicates by Pantone name, keeping the first occurrence
+  const seen = new Set<string>();
+  deduplicatedData = data.filter(color => {
+    if (seen.has(color.PANTONENAME)) {
+      return false;
+    }
+    seen.add(color.PANTONENAME);
+    return true;
+  });
+  
+  console.log(`Removed ${data.length - deduplicatedData.length} duplicate colors. Final count: ${deduplicatedData.length}`);
 };
 
-// Function to get the cached data
+// Function to get the cached data (now returns deduplicated data)
 export const getPantoneData = () => {
-  return cachedPantoneData;
+  return deduplicatedData;
 };
 
 // Helper function to determine color family based on Pantone name and hex color
@@ -177,17 +190,7 @@ export const searchPantones = (
     return matchesSearch && matchesFamily;
   });
 
-  // Remove duplicates by Pantone name, keeping the first occurrence
-  const seen = new Set<string>();
-  filtered = filtered.filter(color => {
-    if (seen.has(color.PANTONENAME)) {
-      return false;
-    }
-    seen.add(color.PANTONENAME);
-    return true;
-  });
-
-  // Sort the results
+  // Sort the results (duplicates already removed at data level)
   filtered.sort((a, b) => {
     switch (sortBy) {
       case 'lightness':
