@@ -17,7 +17,9 @@ export const usePalette = () => {
   useEffect(() => {
     const saved = localStorage.getItem('pantone-saved-colors');
     if (saved) {
-      setSavedColors(JSON.parse(saved));
+      const parsedColors = JSON.parse(saved);
+      console.log('Loading saved colors from localStorage:', parsedColors.length, 'colors');
+      setSavedColors(parsedColors);
     }
     
     const palettes = localStorage.getItem('pantone-saved-palettes');
@@ -33,6 +35,7 @@ export const usePalette = () => {
 
   // Save to localStorage whenever state changes
   useEffect(() => {
+    console.log('Saving to localStorage:', savedColors.length, 'colors');
     localStorage.setItem('pantone-saved-colors', JSON.stringify(savedColors));
   }, [savedColors]);
 
@@ -45,10 +48,18 @@ export const usePalette = () => {
   }, [recentColors]);
 
   const addToSaved = (color: PantoneColor) => {
+    console.log('addToSaved called with:', color.PANTONENAME);
+    console.log('Current saved colors count:', savedColors.length);
+    
     setSavedColors(prev => {
+      console.log('Previous saved colors:', prev.map(c => c.PANTONENAME));
+      
       // Check if color already exists
       const exists = prev.find(c => c.PANTONENAME === color.PANTONENAME);
-      if (exists) return prev;
+      if (exists) {
+        console.log('Color already exists, not adding');
+        return prev;
+      }
       
       // If we're at capacity (10), don't add more
       if (prev.length >= 10) {
@@ -57,7 +68,10 @@ export const usePalette = () => {
       }
       
       // Add new color
-      return [...prev, color];
+      const newColors = [...prev, color];
+      console.log('Adding color, new count will be:', newColors.length);
+      console.log('New saved colors:', newColors.map(c => c.PANTONENAME));
+      return newColors;
     });
   };
 
