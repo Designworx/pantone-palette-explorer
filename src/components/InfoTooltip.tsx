@@ -25,7 +25,7 @@ export const InfoTooltip = ({
           <TooltipTrigger asChild>
             <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-help flex-shrink-0 transition-colors" />
           </TooltipTrigger>
-          <TooltipContent className="bg-gray-800 text-white border-gray-700" side="bottom">
+          <TooltipContent className="bg-gray-800 text-white border-gray-700">
             <p>{content}</p>
           </TooltipContent>
         </Tooltip>
@@ -35,11 +35,11 @@ export const InfoTooltip = ({
       <div className="md:hidden">
         <Popover open={openPopover === popoverId} onOpenChange={isOpen => onPopoverChange(popoverId, isOpen)}>
           <PopoverTrigger asChild>
-            <button className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation">
+            <button className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation">
               <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer flex-shrink-0 transition-colors" />
             </button>
           </PopoverTrigger>
-          <PopoverContent className="bg-gray-800 text-white border-gray-700 w-64" side="bottom">
+          <PopoverContent className="bg-gray-800 text-white border-gray-700 w-64">
             <p className="text-sm">{content}</p>
           </PopoverContent>
         </Popover>
