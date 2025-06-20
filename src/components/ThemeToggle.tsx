@@ -44,7 +44,7 @@ export function ThemeToggle() {
         
         {/* Moon Icon */}
         <svg
-          className={`absolute w-4 h-4 text-blue-400 transition-opacity duration-300 ${
+          className={`absolute w-4 h-4 text-blue-600 transition-opacity duration-300 ${
             isDark ? "opacity-100" : "opacity-0"
           }`}
           fill="currentColor"
@@ -71,7 +71,7 @@ export function ThemeToggle() {
         </svg>
         
         <svg
-          className={`w-4 h-4 text-blue-300 transition-opacity duration-300 ${
+          className={`w-4 h-4 text-blue-500 transition-opacity duration-300 ${
             isDark ? "opacity-0" : "opacity-30"
           }`}
           fill="currentColor"
