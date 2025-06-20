@@ -143,7 +143,7 @@ export const AdvancedSearch = ({
           </div>
 
           {/* Collapsible Filters with smooth slide animation */}
-          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
               <div className="flex items-center gap-2">
                 <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
