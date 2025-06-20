@@ -82,12 +82,12 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
   const lab = rgb ? rgbToLab(rgb) : null;
 
   return (
-    <Card className="fixed inset-4 md:inset-8 z-50 overflow-auto bg-white shadow-2xl">
+    <Card className="fixed inset-4 md:inset-8 z-50 overflow-auto bg-background dark:bg-background shadow-2xl border border-border">
       <div className="p-6">
         {/* Header */}
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-foreground mb-2">
               {color.PANTONENAME}
             </h2>
             {deltaE !== undefined && (
@@ -119,14 +119,14 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
         {/* Color Preview */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <h3 className="font-medium mb-2">Color Preview</h3>
+            <h3 className="font-medium mb-2 text-foreground">Color Preview</h3>
             <div className="space-y-2">
               <div
-                className="h-24 w-full rounded border"
+                className="h-24 w-full rounded border border-border"
                 style={{ backgroundColor: color.HEX }}
               />
               <div
-                className="h-24 w-full rounded border relative"
+                className="h-24 w-full rounded border border-border relative"
                 style={{ backgroundColor: '#4D4D4D' }}
               >
                 <div
@@ -141,7 +141,7 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
           </div>
 
           <div>
-            <h3 className="font-medium mb-2">Actions</h3>
+            <h3 className="font-medium mb-2 text-foreground">Actions</h3>
             <div className="space-y-2">
               <Button onClick={downloadASE} variant="outline" className="w-full justify-start">
                 <Download className="h-4 w-4 mr-2" />
@@ -186,27 +186,27 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-3">
                 <div>
-                  <label className="text-sm font-medium text-gray-600">HEX</label>
-                  <div className="p-2 bg-gray-50 rounded font-mono text-sm">{color.HEX}</div>
+                  <label className="text-sm font-medium text-muted-foreground">HEX</label>
+                  <div className="p-2 bg-muted rounded font-mono text-sm text-foreground">{color.HEX}</div>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600">RGB</label>
-                  <div className="p-2 bg-gray-50 rounded font-mono text-sm">
+                  <label className="text-sm font-medium text-muted-foreground">RGB</label>
+                  <div className="p-2 bg-muted rounded font-mono text-sm text-foreground">
                     {color.R}, {color.G}, {color.B}
                   </div>
                 </div>
               </div>
               <div className="space-y-3">
                 <div>
-                  <label className="text-sm font-medium text-gray-600">CMYK (US SWOP Coated)</label>
-                  <div className="p-2 bg-gray-50 rounded font-mono text-sm">
+                  <label className="text-sm font-medium text-muted-foreground">CMYK (US SWOP Coated)</label>
+                  <div className="p-2 bg-muted rounded font-mono text-sm text-foreground">
                     C:{color.C} M:{color.M} Y:{color.Y} K:{color.K}
                   </div>
                 </div>
                 {lab && (
                   <div>
-                    <label className="text-sm font-medium text-gray-600">LAB</label>
-                    <div className="p-2 bg-gray-50 rounded font-mono text-sm">
+                    <label className="text-sm font-medium text-muted-foreground">LAB</label>
+                    <div className="p-2 bg-muted rounded font-mono text-sm text-foreground">
                       L:{lab.L.toFixed(1)} a:{lab.a.toFixed(1)} b:{lab.b.toFixed(1)}
                     </div>
                   </div>
@@ -220,11 +220,11 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
               {tints.map((tint) => (
                 <div key={tint.percentage} className="text-center">
                   <div
-                    className="h-16 w-full rounded border mb-2"
+                    className="h-16 w-full rounded border border-border mb-2"
                     style={{ backgroundColor: tint.hex }}
                   />
-                  <div className="text-sm font-medium">{tint.percentage}%</div>
-                  <div className="text-xs text-gray-600 font-mono">{tint.hex}</div>
+                  <div className="text-sm font-medium text-foreground">{tint.percentage}%</div>
+                  <div className="text-xs text-muted-foreground font-mono">{tint.hex}</div>
                 </div>
               ))}
             </div>
@@ -233,16 +233,16 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
           <TabsContent value="harmonies" className="mt-4">
             <div className="space-y-4">
               <div>
-                <h4 className="font-medium mb-2">Complementary</h4>
+                <h4 className="font-medium mb-2 text-foreground">Complementary</h4>
                 <div className="flex items-center gap-4">
                   <div
-                    className="h-16 w-16 rounded border"
+                    className="h-16 w-16 rounded border border-border"
                     style={{ backgroundColor: complementaryHex }}
                   />
                   <div>
-                    <div className="font-mono text-sm">{complementaryHex}</div>
+                    <div className="font-mono text-sm text-foreground">{complementaryHex}</div>
                     {complementaryMatches.length > 0 && (
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-muted-foreground">
                         Nearest: {complementaryMatches[0].PANTONENAME} (ΔE: {complementaryMatches[0].deltaE.toFixed(1)})
                       </div>
                     )}
@@ -255,16 +255,16 @@ export const ColorDetails = ({ color, deltaE, onClose }: ColorDetailsProps) => {
           <TabsContent value="export" className="mt-4">
             <div className="space-y-4">
               <div>
-                <h4 className="font-medium mb-2">SCSS Map</h4>
-                <pre className="p-3 bg-gray-50 rounded text-sm overflow-x-auto">
+                <h4 className="font-medium mb-2 text-foreground">SCSS Map</h4>
+                <pre className="p-3 bg-muted rounded text-sm overflow-x-auto text-foreground">
 {`$pantone-colors: (
   "${color.PANTONENAME}": ${color.HEX},
 );`}
                 </pre>
               </div>
               <div>
-                <h4 className="font-medium mb-2">CSS Custom Properties</h4>
-                <pre className="p-3 bg-gray-50 rounded text-sm overflow-x-auto">
+                <h4 className="font-medium mb-2 text-foreground">CSS Custom Properties</h4>
+                <pre className="p-3 bg-muted rounded text-sm overflow-x-auto text-foreground">
 {`:root {
   --pantone-${color.PANTONENAME.replace(/\s+/g, '-').toLowerCase()}-hex: ${color.HEX};
   --pantone-${color.PANTONENAME.replace(/\s+/g, '-').toLowerCase()}-rgb: ${color.R}, ${color.G}, ${color.B};
