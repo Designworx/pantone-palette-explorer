@@ -58,7 +58,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
       if (wasAdded) {
         // Trigger ripple effect when successfully adding to favorites
         setShowRipple(true);
-        setTimeout(() => setShowRipple(false), 600);
+        setTimeout(() => setShowRipple(false), 1200);
         
         toast({
           title: "Added to saved",
@@ -103,12 +103,22 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             onMouseUp={(e) => e.stopPropagation()}
             title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {/* Ripple effect */}
+            {/* Multiple ripple waves like stone dropped in water */}
             {showRipple && (
-              <div 
-                className="absolute inset-0 rounded-full bg-white/40 animate-ping"
-                style={{ animationDuration: '0.6s' }}
-              />
+              <>
+                <div 
+                  className="absolute inset-0 rounded-full bg-white/60 animate-ping"
+                  style={{ animationDuration: '1.2s' }}
+                />
+                <div 
+                  className="absolute inset-0 rounded-full bg-white/40 animate-ping"
+                  style={{ animationDuration: '1.2s', animationDelay: '0.2s' }}
+                />
+                <div 
+                  className="absolute inset-0 rounded-full bg-white/20 animate-ping"
+                  style={{ animationDuration: '1.2s', animationDelay: '0.4s' }}
+                />
+              </>
             )}
             
             <Heart 
