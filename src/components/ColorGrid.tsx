@@ -36,7 +36,7 @@ export const ColorGrid = ({
         <p className="text-gray-500">Try adjusting your search criteria</p>
       </div>
     );
-  }
+  };
 
   const handleLoadMore = () => {
     console.log(`Load More button clicked. Has more: ${hasMore}, Remaining: ${remainingCount}`);
@@ -58,7 +58,7 @@ export const ColorGrid = ({
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
         {displayedColors.map((color, index) => (
           <ColorSwatch
-            key={`${color.PANTONENAME}-${color.HEX}-${index}`}
+            key={`${color.PANTONENAME}-${color.HEX}-${color.R}-${color.G}-${color.B}-${index}`}
             color={color}
             onClick={() => onColorSelect(color)}
           />
