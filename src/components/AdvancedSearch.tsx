@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -45,6 +44,14 @@ export const AdvancedSearch = ({
       setOpenPopover(popoverId);
     } else if (openPopover === popoverId) {
       setOpenPopover(null);
+    }
+  };
+
+  const handleSearchChange = (value: string) => {
+    onSearchChange(value);
+    // Reset color family to "All" when user starts typing
+    if (value && colorFamily !== 'All') {
+      onColorFamilyChange('All');
     }
   };
   
@@ -95,7 +102,7 @@ export const AdvancedSearch = ({
               type="text" 
               placeholder="Search Pantone colors by name or number..." 
               value={searchTerm} 
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               className="pl-10 h-12 text-lg border-2 border-gray-200 focus:border-blue-500 transition-colors" 
             />
           </div>
