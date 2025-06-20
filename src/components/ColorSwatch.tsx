@@ -53,11 +53,14 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         description: `${color.PANTONENAME} removed from favorites`,
       });
     } else {
-      addToSaved(color);
-      toast({
-        title: "Added to saved",
-        description: `${color.PANTONENAME} saved to favorites`,
-      });
+      const wasAdded = addToSaved(color);
+      if (wasAdded) {
+        toast({
+          title: "Added to saved",
+          description: `${color.PANTONENAME} saved to favorites`,
+        });
+      }
+      // If wasAdded is false, the addToSaved function already shows the limit reached toast
     }
   };
 
