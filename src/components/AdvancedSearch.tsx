@@ -58,7 +58,7 @@ export const AdvancedSearch = ({
       <div className="hidden md:block">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Info className="h-6 w-6 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
+            <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-help flex-shrink-0 transition-colors" />
           </TooltipTrigger>
           <TooltipContent className="bg-gray-800 text-white border-gray-700">
             <p>{content}</p>
@@ -71,7 +71,7 @@ export const AdvancedSearch = ({
         <Popover open={openPopover === popoverId} onOpenChange={isOpen => handlePopoverChange(popoverId, isOpen)}>
           <PopoverTrigger asChild>
             <button className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-manipulation">
-              <Info className="h-6 w-6 text-blue-600 hover:text-blue-700 cursor-pointer flex-shrink-0 transition-colors" />
+              <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer flex-shrink-0 transition-colors" />
             </button>
           </PopoverTrigger>
           <PopoverContent className="bg-gray-800 text-white border-gray-700 w-64">
