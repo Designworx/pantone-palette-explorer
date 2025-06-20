@@ -1,5 +1,4 @@
 
-
 export const DesignworxLabel = () => {
   return (
     <div className="fixed bottom-4 left-4 z-50">
@@ -7,12 +6,11 @@ export const DesignworxLabel = () => {
         href="https://www.designworx.ie"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block bg-black text-white px-3 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors duration-200 uppercase"
-        style={{ fontSize: '9px' }}
+        className="inline-flex items-center gap-1 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200 text-xs font-medium"
       >
-        Made by Designworx
+        Made by
+        <span className="underline underline-offset-2 decoration-1">Designworx</span>
       </a>
     </div>
   );
 };
-
