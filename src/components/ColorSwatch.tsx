@@ -98,7 +98,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 z-20 ${
+                className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 z-10 ${
                   colorIsSaved 
                     ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
                     : isHovered 
