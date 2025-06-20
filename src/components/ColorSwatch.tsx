@@ -69,7 +69,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   return (
     <TooltipProvider>
       <Card 
-        className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card"
+        className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card relative z-0"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
@@ -79,9 +79,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           className="h-32 w-full relative transition-all duration-300"
           style={{ backgroundColor: color.HEX }}
         >
-          {/* Heart button positioned relative to its parent */}
+          {/* Heart button positioned relative to its parent with reduced z-index */}
           <button
-            className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-10 ${
+            className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-[1] ${
               colorIsSaved 
                 ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
                 : isHovered 
