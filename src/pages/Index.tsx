@@ -78,17 +78,17 @@ const Index = ({ preloadedData }: IndexProps) => {
   // Show loading state if data isn't initialized yet
   if (!dataInitialized) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Pantone colors...</p>
+          <p className="text-gray-600 dark:text-gray-400">Loading Pantone colors...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8">
         <AppHeader />
 
@@ -101,7 +101,7 @@ const Index = ({ preloadedData }: IndexProps) => {
 
           <TabsContent value="search">
             {/* Sticky Search Section */}
-            <div className="sticky top-0 z-10 bg-gradient-to-br from-gray-50 to-gray-100">
+            <div className="sticky top-0 z-10 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
               <SearchSection
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
