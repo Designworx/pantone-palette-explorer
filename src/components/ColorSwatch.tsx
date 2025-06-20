@@ -10,7 +10,7 @@ import { usePalette } from '@/hooks/usePalette';
 
 interface ColorSwatchProps {
   color: PantoneColor;
-  onClick?: () => void;
+  onClick?: (color: PantoneColor) => void;
 }
 
 // Function to determine if text should be light or dark based on background
