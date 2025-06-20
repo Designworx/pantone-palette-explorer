@@ -177,6 +177,16 @@ export const searchPantones = (
     return matchesSearch && matchesFamily;
   });
 
+  // Remove duplicates by Pantone name, keeping the first occurrence
+  const seen = new Set<string>();
+  filtered = filtered.filter(color => {
+    if (seen.has(color.PANTONENAME)) {
+      return false;
+    }
+    seen.add(color.PANTONENAME);
+    return true;
+  });
+
   // Sort the results
   filtered.sort((a, b) => {
     switch (sortBy) {
