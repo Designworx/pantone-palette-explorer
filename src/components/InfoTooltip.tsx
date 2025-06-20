@@ -25,7 +25,7 @@ export const InfoTooltip = ({
           <TooltipTrigger asChild>
             <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-help flex-shrink-0 transition-colors" />
           </TooltipTrigger>
-          <TooltipContent className="bg-gray-800 text-white border-gray-700 rounded-lg">
+          <TooltipContent className="bg-gray-800 text-white border-gray-700" side="bottom">
             <p>{content}</p>
           </TooltipContent>
         </Tooltip>
@@ -39,7 +39,7 @@ export const InfoTooltip = ({
               <Info className="h-6 w-6 text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer flex-shrink-0 transition-colors" />
             </button>
           </PopoverTrigger>
-          <PopoverContent className="bg-gray-800 text-white border-gray-700 w-64 rounded-lg">
+          <PopoverContent className="bg-gray-800 text-white border-gray-700 w-64" side="bottom">
             <p className="text-sm">{content}</p>
           </PopoverContent>
         </Popover>
