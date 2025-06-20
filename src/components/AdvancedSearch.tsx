@@ -47,6 +47,12 @@ export const AdvancedSearch = ({
       setOpenPopover(null);
     }
   };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSearchChange(e.target.value);
+  };
   
   const colorFamilies = ['All', 'Reds', 'Yellows', 'Greens', 'Blues', 'Cyans', 'Magentas', 'Neutrals'];
 
@@ -90,8 +96,14 @@ export const AdvancedSearch = ({
         {/* Main Search */}
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input type="text" placeholder="Search Pantone colors by name or number..." value={searchTerm} onChange={e => onSearchChange(e.target.value)} className="pl-10 h-12 text-lg border-2 border-gray-200 focus:border-blue-500 transition-colors" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 pointer-events-none" />
+            <Input 
+              type="text" 
+              placeholder="Search Pantone colors by name or number..." 
+              value={searchTerm} 
+              onChange={handleSearchChange}
+              className="pl-10 h-12 text-lg border-2 border-gray-200 focus:border-blue-500 transition-colors" 
+            />
           </div>
         </div>
 
@@ -126,7 +138,13 @@ export const AdvancedSearch = ({
           <div className="flex items-center gap-2">
             <InfoIcon content="Find closest Pantone matches for hex color" popoverId="nearestMatch" />
             <div className="flex flex-1">
-              <Input type="text" placeholder="Enter hex color (#FF0000)" value={hexInput} onChange={e => setHexInput(e.target.value)} className="h-10 rounded-r-none border-r-0 focus:z-10" />
+              <Input 
+                type="text" 
+                placeholder="Enter hex color (#FF0000)" 
+                value={hexInput} 
+                onChange={(e) => setHexInput(e.target.value)}
+                className="h-10 rounded-r-none border-r-0 focus:z-10" 
+              />
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button onClick={handleFindNearest} className="h-10 px-3 rounded-l-none border-l-0">
