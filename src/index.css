@@ -96,8 +96,14 @@
     @apply border-border;
   }
 
+  html {
+    @apply bg-background;
+  }
+
   body {
     @apply bg-background text-foreground transition-colors duration-300;
+    margin: 0;
+    padding: 0;
   }
   
   #root {
