@@ -63,7 +63,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
 
   const handleClick = () => {
     addToRecent(color);
-    onClick?.();
+    onClick?.(color);
   };
   
   return (
