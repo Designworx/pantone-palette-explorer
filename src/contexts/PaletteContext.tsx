@@ -14,13 +14,14 @@ interface PaletteContextType {
   savedColors: PantoneColor[];
   savedPalettes: SavedPalette[];
   recentColors: PantoneColor[];
-  addToSaved: (color: PantoneColor) => void;
+  addToSaved: (color: PantoneColor) => boolean;
   removeFromSaved: (colorName: string) => void;
   addToRecent: (color: PantoneColor) => void;
   savePalette: (name: string, colors: PantoneColor[]) => string;
   deletePalette: (id: string) => void;
   isSaved: (colorName: string) => boolean;
   clearSavedColors: () => void;
+  isAtLimit: () => boolean;
 }
 
 const PaletteContext = createContext<PaletteContextType | undefined>(undefined);
@@ -76,9 +77,11 @@ export const PaletteProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [recentColors]);
 
-  const addToSaved = (color: PantoneColor) => {
+  const addToSaved = (color: PantoneColor): boolean => {
     console.log('addToSaved called with:', color.PANTONENAME);
     console.log('Current saved colors count:', savedColors.length);
+    
+    let wasAdded = false;
     
     setSavedColors(prev => {
       console.log('Previous saved colors:', prev.map(c => c.PANTONENAME));
@@ -105,8 +108,11 @@ export const PaletteProvider = ({ children }: { children: ReactNode }) => {
       const newColors = [...prev, color];
       console.log('Adding color, new count will be:', newColors.length);
       console.log('New saved colors:', newColors.map(c => c.PANTONENAME));
+      wasAdded = true;
       return newColors;
     });
+    
+    return wasAdded;
   };
 
   const removeFromSaved = (colorName: string) => {
@@ -144,6 +150,10 @@ export const PaletteProvider = ({ children }: { children: ReactNode }) => {
     return savedColors.some(c => c.PANTONENAME === colorName);
   };
 
+  const isAtLimit = () => {
+    return savedColors.length >= 10;
+  };
+
   return (
     <PaletteContext.Provider value={{
       savedColors,
@@ -155,7 +165,8 @@ export const PaletteProvider = ({ children }: { children: ReactNode }) => {
       savePalette,
       deletePalette,
       isSaved,
-      clearSavedColors
+      clearSavedColors,
+      isAtLimit
     }}>
       {children}
     </PaletteContext.Provider>

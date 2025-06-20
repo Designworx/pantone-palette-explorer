@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Star, Trash2, Download, Clock, Heart, Plus } from 'lucide-react';
+import { Star, Trash2, Download, Clock, Heart, Plus, AlertTriangle } from 'lucide-react';
 import { usePalette } from '@/hooks/usePalette';
 import { PantoneColor } from '@/data/pantoneData';
 import { toast } from '@/hooks/use-toast';
@@ -15,7 +15,7 @@ interface PaletteManagerProps {
 }
 
 export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
-  const { savedColors, savedPalettes, recentColors, removeFromSaved, savePalette, deletePalette, clearSavedColors } = usePalette();
+  const { savedColors, savedPalettes, recentColors, removeFromSaved, savePalette, deletePalette, clearSavedColors, isAtLimit } = usePalette();
   const [newPaletteName, setNewPaletteName] = useState('');
 
   const handleSavePalette = () => {
@@ -76,7 +76,7 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
       {colors.map((color, index) => (
         <div key={index} className="relative group">
           <div
-            className="h-16 w-full rounded border cursor-pointer hover:shadow-md transition-shadow"
+            className="h-16 w-full border cursor-pointer hover:shadow-md transition-shadow"
             style={{ backgroundColor: color.HEX }}
             onClick={() => onColorSelect(color)}
           />
@@ -131,6 +131,16 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
         </TabsList>
 
         <TabsContent value="saved" className="space-y-4">
+          {isAtLimit() && (
+            <div className="bg-red-50 border-2 border-red-200 p-4 flex items-center gap-3">
+              <AlertTriangle className="h-5 w-5 text-red-600 flex-shrink-0" />
+              <div className="text-sm">
+                <p className="font-semibold text-red-800">Palette limit reached!</p>
+                <p className="text-red-700">You have 10/10 colors saved. Create a palette below to start collecting new colors.</p>
+              </div>
+            </div>
+          )}
+          
           {savedColors.length > 0 && (
             <>
               <div className="flex gap-2">
@@ -151,13 +161,6 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
                   <Download className="h-4 w-4" />
                 </Button>
               </div>
-              {savedColors.length === 10 && (
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-                  <p className="text-sm text-amber-800">
-                    <strong>Palette limit reached!</strong> You have 10 colors saved. Create a palette to start collecting new colors.
-                  </p>
-                </div>
-              )}
             </>
           )}
           
@@ -217,7 +220,7 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
             ))
           ) : (
             <div className="text-center py-8 text-gray-500">
-              <div className="h-12 w-12 mx-auto mb-2 opacity-50 bg-gray-200 rounded"></div>
+              <div className="h-12 w-12 mx-auto mb-2 opacity-50 bg-gray-200"></div>
               <p>No saved palettes</p>
               <p className="text-sm">Save colors and create your first palette</p>
             </div>
