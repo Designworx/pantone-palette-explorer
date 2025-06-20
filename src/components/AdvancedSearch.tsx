@@ -43,7 +43,7 @@ export const AdvancedSearch = ({
 
   return (
     <TooltipProvider>
-      <div className="space-y-4">
+      <div className="space-y-4 sticky top-0 z-50 bg-white dark:bg-gray-900 py-4">
         {/* Main Search */}
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
