@@ -58,7 +58,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
       if (wasAdded) {
         // Trigger ripple effect when successfully adding to favorites
         setShowRipple(true);
-        setTimeout(() => setShowRipple(false), 1200);
+        setTimeout(() => setShowRipple(false), 2000);
         
         toast({
           title: "Added to saved",
@@ -103,20 +103,56 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             onMouseUp={(e) => e.stopPropagation()}
             title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {/* Multiple ripple waves like stone dropped in water */}
+            {/* Water ripple effect - multiple expanding circles */}
             {showRipple && (
               <>
+                {/* First ripple - fast and bright */}
                 <div 
-                  className="absolute inset-0 rounded-full bg-white/60 animate-ping"
-                  style={{ animationDuration: '1.2s' }}
+                  className="absolute rounded-full bg-white/80 border border-white/40"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-1 2s ease-out forwards'
+                  }}
                 />
+                {/* Second ripple - medium speed */}
                 <div 
-                  className="absolute inset-0 rounded-full bg-white/40 animate-ping"
-                  style={{ animationDuration: '1.2s', animationDelay: '0.2s' }}
+                  className="absolute rounded-full bg-white/60 border border-white/30"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-2 2s ease-out 0.3s forwards'
+                  }}
                 />
+                {/* Third ripple - slower and larger */}
                 <div 
-                  className="absolute inset-0 rounded-full bg-white/20 animate-ping"
-                  style={{ animationDuration: '1.2s', animationDelay: '0.4s' }}
+                  className="absolute rounded-full bg-white/40 border border-white/20"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-3 2s ease-out 0.6s forwards'
+                  }}
+                />
+                {/* Fourth ripple - largest and slowest */}
+                <div 
+                  className="absolute rounded-full bg-white/20 border border-white/10"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-4 2s ease-out 0.9s forwards'
+                  }}
                 />
               </>
             )}
@@ -178,6 +214,53 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           </div>
         </div>
       </Card>
+
+      {/* CSS animations for water ripple effect */}
+      <style jsx>{`
+        @keyframes ripple-1 {
+          0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.8;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(3);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes ripple-2 {
+          0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.6;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(4.5);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes ripple-3 {
+          0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.4;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(6);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes ripple-4 {
+          0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.2;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(8);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </TooltipProvider>
   );
 };
