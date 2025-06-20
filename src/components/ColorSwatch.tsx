@@ -27,6 +27,7 @@ const getTextColor = (hex: string) => {
 
 export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [showRipple, setShowRipple] = useState(false);
   const { addToSaved, removeFromSaved, isSaved, addToRecent } = usePalette();
   const textColor = getTextColor(color.HEX);
   const colorIsSaved = isSaved(color.PANTONENAME);
@@ -55,6 +56,10 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
     } else {
       const wasAdded = addToSaved(color);
       if (wasAdded) {
+        // Trigger ripple effect when successfully adding to favorites
+        setShowRipple(true);
+        setTimeout(() => setShowRipple(false), 600);
+        
         toast({
           title: "Added to saved",
           description: `${color.PANTONENAME} saved to favorites`,
@@ -84,7 +89,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         >
           {/* Heart button - always visible on mobile/tablet, hover on desktop */}
           <button
-            className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-[1] ${
+            className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-[1] overflow-hidden ${
               colorIsSaved 
                 ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
                 : `opacity-100 md:opacity-0 bg-white/20 backdrop-blur-sm hover:bg-white/40 ${isHovered ? 'md:opacity-100' : ''}`
@@ -98,8 +103,16 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             onMouseUp={(e) => e.stopPropagation()}
             title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
           >
+            {/* Ripple effect */}
+            {showRipple && (
+              <div 
+                className="absolute inset-0 rounded-full bg-white/40 animate-ping"
+                style={{ animationDuration: '0.6s' }}
+              />
+            )}
+            
             <Heart 
-              className={`h-4 w-4 transition-all duration-200 ${
+              className={`h-4 w-4 transition-all duration-200 relative z-10 ${
                 colorIsSaved ? 'fill-current scale-110 text-gray-600' : ''
               }`} 
               style={{ color: colorIsSaved ? '#4b5563' : textColor }} 
