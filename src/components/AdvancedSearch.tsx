@@ -106,8 +106,8 @@ export const AdvancedSearch = ({
   return <TooltipProvider>
       <div className="space-y-8 sticky top-0 py-8 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0 z-50">
         {/* Main Search - Made More Prominent */}
-        <div className="relative flex items-center gap-2">
-          <div className="relative flex-1">
+        <div className="relative flex items-center justify-center">
+          <div className="relative w-full max-w-md">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-500 h-6 w-6 pointer-events-none" />
             <Input 
               type="text" 
