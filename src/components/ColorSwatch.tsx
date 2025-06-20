@@ -84,7 +84,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
       >
         {/* Color Swatch */}
         <div 
-          className="h-32 w-full relative transition-all duration-300"
+          className={`h-32 w-full relative transition-all duration-300 ${
+            isHovered && !colorIsSaved ? 'scale-110' : ''
+          }`}
           style={{ backgroundColor: color.HEX }}
         >
           {/* Heart button - no circle background */}
@@ -186,7 +188,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         </div>
         
         {/* Color Information */}
-        <div className="p-4 space-y-2">
+        <div className={`p-4 space-y-2 transition-opacity duration-300 ${
+          isHovered && !colorIsSaved ? 'opacity-0' : 'opacity-100'
+        }`}>
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-sm text-foreground leading-tight flex-1">
               {color.PANTONENAME}
