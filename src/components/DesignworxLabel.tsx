@@ -1,7 +1,8 @@
 
+
 export const DesignworxLabel = () => {
   return (
-    <div className="fixed bottom-4 left-4 z-50">
+    <div className="fixed bottom-6 left-4 z-50">
       <a
         href="https://www.designworx.ie"
         target="_blank"
@@ -14,3 +15,4 @@ export const DesignworxLabel = () => {
     </div>
   );
 };
+
