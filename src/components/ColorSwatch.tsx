@@ -87,12 +87,12 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           className="h-32 w-full relative transition-all duration-300"
           style={{ backgroundColor: color.HEX }}
         >
-          {/* Heart button - always visible on mobile/tablet, hover on desktop */}
+          {/* Heart button - no circle background */}
           <button
-            className={`absolute top-2 right-2 h-8 w-8 p-0 rounded-full transition-all duration-200 flex items-center justify-center z-[1] overflow-hidden ${
+            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-[1] overflow-hidden ${
               colorIsSaved 
-                ? 'opacity-100 bg-white/30 backdrop-blur-sm' 
-                : `opacity-100 md:opacity-0 bg-white/20 backdrop-blur-sm hover:bg-white/40 ${isHovered ? 'md:opacity-100' : ''}`
+                ? 'opacity-100' 
+                : `opacity-100 md:opacity-0 hover:opacity-100 ${isHovered ? 'md:opacity-100' : ''}`
             }`}
             onClick={(e) => {
               e.preventDefault();
@@ -216,7 +216,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
       </Card>
 
       {/* CSS animations for water ripple effect */}
-      <style jsx>{`
+      <style>
+        {`
         @keyframes ripple-1 {
           0% {
             transform: translate(-50%, -50%) scale(1);
@@ -260,7 +261,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             opacity: 0;
           }
         }
-      `}</style>
+        `}
+      </style>
     </TooltipProvider>
   );
 };
