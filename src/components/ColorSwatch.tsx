@@ -44,6 +44,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   const toggleSaved = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     console.log(`Toggling save for ${color.PANTONENAME}, currently saved: ${colorIsSaved}`);
     
     if (colorIsSaved) {
@@ -59,6 +60,18 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         description: `${color.PANTONENAME} saved to favorites`,
       });
     }
+  };
+
+  const handleHeartMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
+  const handleHeartPointerDown = (e: React.PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
   };
 
   const handleClick = () => {
@@ -93,8 +106,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                       : 'opacity-0'
                 }`}
                 onClick={toggleSaved}
-                onMouseDown={(e) => e.stopPropagation()}
-                onPointerDown={(e) => e.stopPropagation()}
+                onMouseDown={handleHeartMouseDown}
+                onPointerDown={handleHeartPointerDown}
               >
                 <Heart 
                   className={`h-4 w-4 transition-all duration-200 ${
