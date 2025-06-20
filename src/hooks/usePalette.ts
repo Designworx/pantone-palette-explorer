@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { PantoneColor } from '@/data/pantoneData';
 
@@ -51,9 +50,14 @@ export const usePalette = () => {
       const exists = prev.find(c => c.PANTONENAME === color.PANTONENAME);
       if (exists) return prev;
       
-      // Add new color, limit to 10 total
-      const newColors = [...prev, color];
-      return newColors.length > 10 ? newColors.slice(1) : newColors;
+      // If we're at capacity (10), don't add more
+      if (prev.length >= 10) {
+        console.log('Cannot add more colors: maximum of 10 reached');
+        return prev;
+      }
+      
+      // Add new color
+      return [...prev, color];
     });
   };
 
