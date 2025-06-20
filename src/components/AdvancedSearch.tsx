@@ -1,4 +1,5 @@
 
+
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -62,9 +63,9 @@ export const AdvancedSearch = ({
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-4 w-4 text-gray-500 cursor-help flex-shrink-0" />
+                <Info className="h-5 w-5 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent className="bg-gray-800 text-white border-gray-700">
                 <p>Filter by color family group</p>
               </TooltipContent>
             </Tooltip>
@@ -83,9 +84,9 @@ export const AdvancedSearch = ({
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-4 w-4 text-gray-500 cursor-help flex-shrink-0" />
+                <Info className="h-5 w-5 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent className="bg-gray-800 text-white border-gray-700">
                 <p>Sort results by different criteria</p>
               </TooltipContent>
             </Tooltip>
@@ -104,9 +105,9 @@ export const AdvancedSearch = ({
           <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Info className="h-4 w-4 text-gray-500 cursor-help flex-shrink-0" />
+                <Info className="h-5 w-5 text-blue-600 hover:text-blue-700 cursor-help flex-shrink-0 transition-colors" />
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent className="bg-gray-800 text-white border-gray-700">
                 <p>Find closest Pantone matches for hex color</p>
               </TooltipContent>
             </Tooltip>
@@ -127,7 +128,7 @@ export const AdvancedSearch = ({
                     <Palette className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent className="bg-gray-800 text-white border-gray-700">
                   <p>Find nearest Pantone matches</p>
                 </TooltipContent>
               </Tooltip>
@@ -138,3 +139,4 @@ export const AdvancedSearch = ({
     </TooltipProvider>
   );
 };
+
