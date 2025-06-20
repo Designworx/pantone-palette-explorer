@@ -104,7 +104,7 @@ export const AdvancedSearch = ({
     </>;
     
   return <TooltipProvider>
-      <div className="space-y-6 sticky top-0 py-6 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0">
+      <div className="space-y-6 sticky top-0 py-6 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0 z-50">
         {/* Main Search */}
         <div className="relative flex items-center gap-2">
           <div className="relative flex-1">
@@ -143,7 +143,7 @@ export const AdvancedSearch = ({
           </div>
 
           {/* Collapsible Filters with smooth slide animation */}
-          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+          <CollapsibleContent className="overflow-visible data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
               <div className="flex items-center gap-2">
                 <InfoIcon content="Filter by color family group" popoverId="colorFamily" />
@@ -151,7 +151,7 @@ export const AdvancedSearch = ({
                   <SelectTrigger className="h-10">
                     <SelectValue placeholder="Color Family" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[200]">
                     {colorFamilies.map(family => <SelectItem key={family} value={family}>{family}</SelectItem>)}
                   </SelectContent>
                 </Select>
@@ -163,7 +163,7 @@ export const AdvancedSearch = ({
                   <SelectTrigger className="h-10">
                     <SelectValue placeholder="Sort By" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[200]">
                     <SelectItem value="name">Name</SelectItem>
                     <SelectItem value="lightness">Lightness</SelectItem>
                     <SelectItem value="chroma">Chroma</SelectItem>
