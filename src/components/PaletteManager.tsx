@@ -1,11 +1,12 @@
 
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Star, Trash2, Download, Clock } from 'lucide-react';
+import { Star, Trash2, Download, Clock, Heart } from 'lucide-react';
 import { usePalette } from '@/hooks/usePalette';
 import { PantoneColor } from '@/data/pantoneData';
 import { toast } from '@/hooks/use-toast';
@@ -152,9 +153,9 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
             <ColorGrid colors={savedColors} showRemove />
           ) : (
             <div className="text-center py-8 text-gray-500">
-              <Star className="h-12 w-12 mx-auto mb-2 opacity-50" />
+              <Heart className="h-12 w-12 mx-auto mb-2 opacity-50" />
               <p>No saved colors yet</p>
-              <p className="text-sm">Click the star icon on any color to save it</p>
+              <p className="text-sm">Click the heart icon on any color to save it</p>
             </div>
           )}
         </TabsContent>
@@ -213,3 +214,4 @@ export const PaletteManager = ({ onColorSelect }: PaletteManagerProps) => {
     </Card>
   );
 };
+
