@@ -77,7 +77,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   return (
     <TooltipProvider>
       <Card 
-        className={`overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card relative ${
+        className={`overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer bg-card dark:bg-card relative ${
           isHovered ? 'p-0' : ''
         }`}
         onMouseEnter={() => setIsHovered(true)}
