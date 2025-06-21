@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -83,14 +84,16 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
       >
         {/* Color Swatch */}
         <div 
-          className={`h-32 w-full relative transition-all duration-300 ${
-            isHovered && !colorIsSaved ? 'absolute inset-0 z-10 rounded-lg' : ''
+          className={`transition-all duration-300 relative ${
+            isHovered && !colorIsSaved 
+              ? 'absolute inset-0 z-10 rounded-lg' 
+              : 'h-32 w-full'
           }`}
           style={{ backgroundColor: color.HEX }}
         >
           {/* Heart button */}
           <button
-            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-[1] overflow-hidden ${
+            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 overflow-hidden ${
               colorIsSaved 
                 ? 'opacity-100' 
                 : `opacity-100 md:opacity-0 hover:opacity-100 ${isHovered ? 'md:opacity-100' : ''}`
@@ -182,36 +185,36 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           )}
         </div>
         
-        {/* Color Information - hidden when hovering non-saved colors */}
-        <div className={`p-4 space-y-2 transition-opacity duration-300 ${
-          isHovered && !colorIsSaved ? 'opacity-0' : 'opacity-100'
-        }`}>
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-sm text-foreground leading-tight flex-1">
-              {color.PANTONENAME}
-            </h3>
-          </div>
-          
-          <div className="space-y-1">
-            <div 
-              className="text-xs text-muted-foreground cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              onClick={(e) => copyToClipboard(color.HEX, 'Hex', e)}
-            >
-              <span className="font-medium">HEX:</span> {color.HEX}
+        {/* Color Information - completely hidden when hovering non-saved colors */}
+        {!(isHovered && !colorIsSaved) && (
+          <div className="p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-sm text-foreground leading-tight flex-1">
+                {color.PANTONENAME}
+              </h3>
             </div>
             
-            <div 
-              className="text-xs text-muted-foreground cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              onClick={(e) => copyToClipboard(`C:${color.C} M:${color.M} Y:${color.Y} K:${color.K}`, 'CMYK', e)}
-            >
-              <span className="font-medium">CMYK:</span> C:{color.C} M:{color.M} Y:{color.Y} K:{color.K}
-            </div>
-            
-            <div className="text-xs text-muted-foreground">
-              <span className="font-medium">RGB:</span> {color.R}, {color.G}, {color.B}
+            <div className="space-y-1">
+              <div 
+                className="text-xs text-muted-foreground cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                onClick={(e) => copyToClipboard(color.HEX, 'Hex', e)}
+              >
+                <span className="font-medium">HEX:</span> {color.HEX}
+              </div>
+              
+              <div 
+                className="text-xs text-muted-foreground cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                onClick={(e) => copyToClipboard(`C:${color.C} M:${color.M} Y:${color.Y} K:${color.K}`, 'CMYK', e)}
+              >
+                <span className="font-medium">CMYK:</span> C:{color.C} M:{color.M} Y:{color.Y} K:{color.K}
+              </div>
+              
+              <div className="text-xs text-muted-foreground">
+                <span className="font-medium">RGB:</span> {color.R}, {color.G}, {color.B}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </Card>
 
       {/* CSS animations for water ripple effect */}
