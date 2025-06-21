@@ -57,7 +57,7 @@ export const AdvancedSearch = ({
     
   return (
     <TooltipProvider>
-      <div className="space-y-8 sticky top-0 py-8 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0 z-50">
+      <div className="space-y-8 sticky top-0 py-8 bg-gray-50 dark:bg-gray-900 px-4 w-full z-50">
         {/* Main Search - Made More Prominent */}
         <MainSearchInput 
           searchTerm={searchTerm}
