@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -77,7 +76,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   return (
     <TooltipProvider>
       <Card 
-        className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card relative z-0"
+        className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card relative"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
@@ -85,11 +84,11 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         {/* Color Swatch */}
         <div 
           className={`h-32 w-full relative transition-all duration-300 ${
-            isHovered && !colorIsSaved ? 'absolute inset-0 z-10' : ''
+            isHovered && !colorIsSaved ? 'absolute inset-0 z-10 rounded-lg' : ''
           }`}
           style={{ backgroundColor: color.HEX }}
         >
-          {/* Heart button - no circle background */}
+          {/* Heart button */}
           <button
             className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-[1] overflow-hidden ${
               colorIsSaved 
@@ -105,10 +104,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             onMouseUp={(e) => e.stopPropagation()}
             title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {/* Water ripple effect - multiple expanding circles */}
+            {/* Water ripple effect */}
             {showRipple && (
               <>
-                {/* First ripple - fast and bright */}
                 <div 
                   className="absolute rounded-full bg-white/80 border border-white/40"
                   style={{ 
@@ -120,7 +118,6 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                     animation: 'ripple-1 2s ease-out forwards'
                   }}
                 />
-                {/* Second ripple - medium speed */}
                 <div 
                   className="absolute rounded-full bg-white/60 border border-white/30"
                   style={{ 
@@ -132,7 +129,6 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                     animation: 'ripple-2 2s ease-out 0.3s forwards'
                   }}
                 />
-                {/* Third ripple - slower and larger */}
                 <div 
                   className="absolute rounded-full bg-white/40 border border-white/20"
                   style={{ 
@@ -144,7 +140,6 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                     animation: 'ripple-3 2s ease-out 0.6s forwards'
                   }}
                 />
-                {/* Fourth ripple - largest and slowest */}
                 <div 
                   className="absolute rounded-full bg-white/20 border border-white/10"
                   style={{ 
@@ -167,7 +162,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             />
           </button>
 
-          {/* Hover overlay */}
+          {/* Hover overlay for non-saved colors */}
           {isHovered && !colorIsSaved && (
             <div 
               className="absolute inset-0 flex items-center justify-center text-sm font-medium transition-opacity duration-300 bg-black bg-opacity-10"
@@ -187,7 +182,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           )}
         </div>
         
-        {/* Color Information */}
+        {/* Color Information - hidden when hovering non-saved colors */}
         <div className={`p-4 space-y-2 transition-opacity duration-300 ${
           isHovered && !colorIsSaved ? 'opacity-0' : 'opacity-100'
         }`}>
