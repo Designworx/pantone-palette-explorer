@@ -95,7 +95,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         >
           {/* Heart button */}
           <button
-            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 overflow-hidden ${
+            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 overflow-visible ${
               colorIsSaved 
                 ? 'opacity-100' 
                 : `opacity-100 md:opacity-0 hover:opacity-100 ${isHovered ? 'md:opacity-100' : ''}`
@@ -109,11 +109,11 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             onMouseUp={(e) => e.stopPropagation()}
             title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
           >
-            {/* Water ripple effect */}
+            {/* Water ripple effect - positioned to expand beyond button */}
             {showRipple && (
               <>
                 <div 
-                  className="absolute rounded-full bg-white/80 border border-white/40"
+                  className="absolute rounded-full bg-white/80 border border-white/40 pointer-events-none"
                   style={{ 
                     width: '16px',
                     height: '16px',
@@ -124,7 +124,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                   }}
                 />
                 <div 
-                  className="absolute rounded-full bg-white/60 border border-white/30"
+                  className="absolute rounded-full bg-white/60 border border-white/30 pointer-events-none"
                   style={{ 
                     width: '16px',
                     height: '16px',
@@ -135,7 +135,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                   }}
                 />
                 <div 
-                  className="absolute rounded-full bg-white/40 border border-white/20"
+                  className="absolute rounded-full bg-white/40 border border-white/20 pointer-events-none"
                   style={{ 
                     width: '16px',
                     height: '16px',
@@ -146,7 +146,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                   }}
                 />
                 <div 
-                  className="absolute rounded-full bg-white/20 border border-white/10"
+                  className="absolute rounded-full bg-white/20 border border-white/10 pointer-events-none"
                   style={{ 
                     width: '16px',
                     height: '16px',
@@ -220,7 +220,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             opacity: 0.8;
           }
           100% {
-            transform: translate(-50%, -50%) scale(3);
+            transform: translate(-50%, -50%) scale(4);
             opacity: 0;
           }
         }
@@ -231,7 +231,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             opacity: 0.6;
           }
           100% {
-            transform: translate(-50%, -50%) scale(4.5);
+            transform: translate(-50%, -50%) scale(6);
             opacity: 0;
           }
         }
@@ -242,7 +242,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             opacity: 0.4;
           }
           100% {
-            transform: translate(-50%, -50%) scale(6);
+            transform: translate(-50%, -50%) scale(8);
             opacity: 0;
           }
         }
@@ -253,7 +253,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             opacity: 0.2;
           }
           100% {
-            transform: translate(-50%, -50%) scale(8);
+            transform: translate(-50%, -50%) scale(10);
             opacity: 0;
           }
         }
