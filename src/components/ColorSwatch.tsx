@@ -1,20 +1,15 @@
-
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Heart, Eye, Palette } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { PantoneColor } from '@/data/pantoneData';
 import { usePalette } from '@/hooks/usePalette';
-import { SubstratePreview } from './SubstratePreview';
-import { ColorHarmonyWidget } from './ColorHarmonyWidget';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 interface ColorSwatchProps {
   color: PantoneColor;
   onClick?: (color: PantoneColor) => void;
-  allColors?: PantoneColor[];
 }
 
 // Function to determine if text should be light or dark based on background
@@ -29,11 +24,9 @@ const getTextColor = (hex: string) => {
   return luminance > 0.5 ? '#000000' : '#ffffff';
 };
 
-export const ColorSwatch = ({ color, onClick, allColors = [] }: ColorSwatchProps) => {
+export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showRipple, setShowRipple] = useState(false);
-  const [touchStartTime, setTouchStartTime] = useState(0);
-  const [showSubstrate, setShowSubstrate] = useState(false);
   const { addToSaved, removeFromSaved, isSaved, addToRecent } = usePalette();
   const textColor = getTextColor(color.HEX);
   const colorIsSaved = isSaved(color.PANTONENAME);
@@ -79,19 +72,6 @@ export const ColorSwatch = ({ color, onClick, allColors = [] }: ColorSwatchProps
     addToRecent(color);
     onClick?.(color);
   };
-
-  // Mobile touch handlers
-  const handleTouchStart = () => {
-    setTouchStartTime(Date.now());
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const touchDuration = Date.now() - touchStartTime;
-    if (touchDuration > 500) { // Long press
-      e.preventDefault();
-      toggleSaved(e as any);
-    }
-  };
   
   // On mobile/responsive, show info when not hovered AND not saved
   // On desktop, only show info when not hovered
@@ -107,8 +87,6 @@ export const ColorSwatch = ({ color, onClick, allColors = [] }: ColorSwatchProps
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
       >
         {/* Color Swatch */}
         <div 
@@ -119,128 +97,79 @@ export const ColorSwatch = ({ color, onClick, allColors = [] }: ColorSwatchProps
           }`}
           style={{ backgroundColor: color.HEX }}
         >
-          {/* Enhanced Action Buttons */}
-          <div className="absolute top-2 right-2 flex gap-1">
-            {/* Substrate Preview Button */}
-            <HoverCard>
-              <HoverCardT
-
-rigger asChild>
-                <button
-                  className="h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 bg-white/80 backdrop-blur-sm rounded-full opacity-0 hover:opacity-100"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowSubstrate(!showSubstrate);
+          {/* Heart button */}
+          <button
+            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 overflow-visible ${
+              colorIsSaved 
+                ? 'opacity-100' 
+                : `opacity-100 md:opacity-0 hover:opacity-100 ${isHovered ? 'md:opacity-100' : ''}`
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleSaved(e);
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onMouseUp={(e) => e.stopPropagation()}
+            title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            {/* Water ripple effect - positioned to expand beyond button */}
+            {showRipple && (
+              <>
+                <div 
+                  className="absolute rounded-full bg-white/80 border border-white/40 pointer-events-none"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-1 1s ease-out forwards'
                   }}
-                  title="Preview on different paper stocks"
-                >
-                  <Eye className="h-4 w-4 text-gray-700" />
-                </button>
-              </HoverCardTrigger>
-              <HoverCardContent className="w-80 p-0">
-                <SubstratePreview color={color} />
-              </HoverCardContent>
-            </HoverCard>
-
-            {/* Color Harmony Button */}
-            {allColors.length > 0 && (
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <button
-                    className="h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 bg-white/80 backdrop-blur-sm rounded-full opacity-0 hover:opacity-100"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    title="View color harmonies"
-                  >
-                    <Palette className="h-4 w-4 text-gray-700" />
-                  </button>
-                </HoverCardTrigger>
-                <HoverCardContent className="w-80 p-0">
-                  <ColorHarmonyWidget 
-                    baseColor={color} 
-                    allColors={allColors}
-                    onColorSelect={(harmonColor) => onClick?.(harmonColor)}
-                  />
-                </HoverCardContent>
-              </HoverCard>
+                />
+                <div 
+                  className="absolute rounded-full bg-white/60 border border-white/30 pointer-events-none"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-2 1s ease-out 0.15s forwards'
+                  }}
+                />
+                <div 
+                  className="absolute rounded-full bg-white/40 border border-white/20 pointer-events-none"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-3 1s ease-out 0.3s forwards'
+                  }}
+                />
+                <div 
+                  className="absolute rounded-full bg-white/20 border border-white/10 pointer-events-none"
+                  style={{ 
+                    width: '16px',
+                    height: '16px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    animation: 'ripple-4 1s ease-out 0.45s forwards'
+                  }}
+                />
+              </>
             )}
-
-            {/* Heart button */}
-            <button
-              className={`h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 overflow-visible bg-white/80 backdrop-blur-sm rounded-full ${
-                colorIsSaved 
-                  ? 'opacity-100' 
-                  : `opacity-100 md:opacity-0 hover:opacity-100 ${isHovered ? 'md:opacity-100' : ''}`
-              }`}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleSaved(e);
-              }}
-              onMouseDown={(e) => e.stopPropagation()}
-              onMouseUp={(e) => e.stopPropagation()}
-              title={colorIsSaved ? 'Remove from favorites' : 'Add to favorites (long press on mobile)'}
-            >
-              {/* Water ripple effect - positioned to expand beyond button */}
-              {showRipple && (
-                <>
-                  <div 
-                    className="absolute rounded-full bg-white/80 border border-white/40 pointer-events-none"
-                    style={{ 
-                      width: '16px',
-                      height: '16px',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      animation: 'ripple-1 1s ease-out forwards'
-                    }}
-                  />
-                  <div 
-                    className="absolute rounded-full bg-white/60 border border-white/30 pointer-events-none"
-                    style={{ 
-                      width: '16px',
-                      height: '16px',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      animation: 'ripple-2 1s ease-out 0.15s forwards'
-                    }}
-                  />
-                  <div 
-                    className="absolute rounded-full bg-white/40 border border-white/20 pointer-events-none"
-                    style={{ 
-                      width: '16px',
-                      height: '16px',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      animation: 'ripple-3 1s ease-out 0.3s forwards'
-                    }}
-                  />
-                  <div 
-                    className="absolute rounded-full bg-white/20 border border-white/10 pointer-events-none"
-                    style={{ 
-                      width: '16px',
-                      height: '16px',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      animation: 'ripple-4 1s ease-out 0.45s forwards'
-                    }}
-                  />
-                </>
-              )}
-              
-              <Heart 
-                className={`h-4 w-4 transition-all duration-200 relative z-10 ${
-                  colorIsSaved ? 'fill-current scale-110 text-gray-600' : 'text-gray-700'
-                }`} 
-              />
-            </button>
-          </div>
+            
+            <Heart 
+              className={`h-4 w-4 transition-all duration-200 relative z-10 ${
+                colorIsSaved ? 'fill-current scale-110 text-gray-600' : ''
+              }`} 
+              style={{ color: colorIsSaved ? '#4b5563' : textColor }} 
+            />
+          </button>
 
           {/* Saved indicator - slides down on hover */}
           {colorIsSaved && (

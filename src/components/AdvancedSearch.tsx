@@ -5,7 +5,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { PantoneColor } from '@/data/pantoneData';
-import { EnhancedMainSearchInput } from './EnhancedMainSearchInput';
+import { MainSearchInput } from './MainSearchInput';
 import { ColorFamilyFilter } from './ColorFamilyFilter';
 import { SortOptions } from './SortOptions';
 import { HexColorMatcher } from './HexColorMatcher';
@@ -20,7 +20,6 @@ interface AdvancedSearchProps {
   onNearestMatch: (colors: Array<PantoneColor & {
     deltaE: number;
   }>) => void;
-  allColors: PantoneColor[];
 }
 
 export const AdvancedSearch = ({
@@ -30,8 +29,7 @@ export const AdvancedSearch = ({
   onColorFamilyChange,
   sortBy,
   onSortChange,
-  onNearestMatch,
-  allColors
+  onNearestMatch
 }: AdvancedSearchProps) => {
   const [openPopover, setOpenPopover] = useState<string | null>(null);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
@@ -60,11 +58,10 @@ export const AdvancedSearch = ({
   return (
     <TooltipProvider>
       <div className="space-y-8 sticky top-0 py-8 bg-gray-50 dark:bg-gray-900 px-[10px] mx-0 my-0 z-50">
-        {/* Enhanced Main Search */}
-        <EnhancedMainSearchInput 
+        {/* Main Search - Made More Prominent */}
+        <MainSearchInput 
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
-          allColors={allColors}
         />
 
         {/* More/Less Options Button */}
