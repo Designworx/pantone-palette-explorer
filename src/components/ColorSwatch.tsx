@@ -58,7 +58,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
       if (wasAdded) {
         // Trigger ripple effect when successfully adding to favorites
         setShowRipple(true);
-        setTimeout(() => setShowRipple(false), 2000);
+        setTimeout(() => setShowRipple(false), 1000);
         
         toast({
           title: "Added to saved",
@@ -120,7 +120,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    animation: 'ripple-1 2s ease-out forwards'
+                    animation: 'ripple-1 1s ease-out forwards'
                   }}
                 />
                 <div 
@@ -131,7 +131,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    animation: 'ripple-2 2s ease-out 0.3s forwards'
+                    animation: 'ripple-2 1s ease-out 0.15s forwards'
                   }}
                 />
                 <div 
@@ -142,7 +142,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    animation: 'ripple-3 2s ease-out 0.6s forwards'
+                    animation: 'ripple-3 1s ease-out 0.3s forwards'
                   }}
                 />
                 <div 
@@ -153,7 +153,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    animation: 'ripple-4 2s ease-out 0.9s forwards'
+                    animation: 'ripple-4 1s ease-out 0.45s forwards'
                   }}
                 />
               </>
