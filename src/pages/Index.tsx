@@ -120,6 +120,7 @@ const Index = ({ preloadedData }: IndexProps) => {
                 sortBy={sortBy}
                 onSortChange={setSortBy}
                 onNearestMatch={handleNearestMatch}
+                allColors={PantoneData}
               />
             </div>
 
@@ -137,6 +138,7 @@ const Index = ({ preloadedData }: IndexProps) => {
               remainingCount={remainingCount}
               onLoadMore={loadMore}
               onColorSelect={handleColorSelect}
+              allColors={PantoneData}
             />
           </TabsContent>
 

@@ -12,6 +12,7 @@ interface ColorGridProps {
   remainingCount: number;
   onLoadMore: () => void;
   onColorSelect: (color: PantoneColor) => void;
+  allColors: PantoneColor[];
 }
 
 export const ColorGrid = ({
@@ -22,7 +23,8 @@ export const ColorGrid = ({
   hasMore,
   remainingCount,
   onLoadMore,
-  onColorSelect
+  onColorSelect,
+  allColors
 }: ColorGridProps) => {
   if (displayedColors.length === 0) {
     return (
@@ -61,6 +63,7 @@ export const ColorGrid = ({
             key={`${color.PANTONENAME}-${color.HEX}-${color.R}-${color.G}-${color.B}-${index}`}
             color={color}
             onClick={() => onColorSelect(color)}
+            allColors={allColors}
           />
         ))}
       </div>

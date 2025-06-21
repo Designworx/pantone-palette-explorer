@@ -10,6 +10,7 @@ interface SearchSectionProps {
   sortBy: string;
   onSortChange: (sort: string) => void;
   onNearestMatch: (colors: Array<PantoneColor & { deltaE: number }>) => void;
+  allColors: PantoneColor[];
 }
 
 export const SearchSection = ({
@@ -19,7 +20,8 @@ export const SearchSection = ({
   onColorFamilyChange,
   sortBy,
   onSortChange,
-  onNearestMatch
+  onNearestMatch,
+  allColors
 }: SearchSectionProps) => {
   return (
     <div className="flex items-center justify-center min-h-[120px] shadow-md z-[99999] relative bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
@@ -32,6 +34,7 @@ export const SearchSection = ({
           sortBy={sortBy}
           onSortChange={onSortChange}
           onNearestMatch={onNearestMatch}
+          allColors={allColors}
         />
       </div>
     </div>
