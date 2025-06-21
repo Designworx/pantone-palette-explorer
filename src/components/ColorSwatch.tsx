@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -74,11 +73,16 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
     onClick?.(color);
   };
   
+  // On mobile/responsive, show info when not hovered AND not saved
+  // On desktop, only show info when not hovered
+  const shouldShowColorExpanded = isHovered;
+  const shouldShowColorInfo = !isHovered || (!colorIsSaved && window.innerWidth < 768);
+  
   return (
     <TooltipProvider>
       <Card 
         className={`overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer bg-card dark:bg-card relative ${
-          isHovered ? 'p-0' : ''
+          shouldShowColorExpanded ? 'p-0' : ''
         }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -87,7 +91,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         {/* Color Swatch */}
         <div 
           className={`transition-all duration-300 relative ${
-            isHovered 
+            shouldShowColorExpanded 
               ? 'absolute inset-0 z-10 rounded-lg w-full h-full' 
               : 'h-32 w-full'
           }`}
@@ -170,7 +174,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           {/* Saved indicator - slides down on hover */}
           {colorIsSaved && (
             <div className={`absolute left-2 transition-all duration-300 ${
-              isHovered ? 'bottom-2' : 'bottom-2'
+              shouldShowColorExpanded ? 'bottom-2' : 'bottom-2'
             }`}>
               <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-gray-800">
                 Saved
@@ -179,8 +183,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           )}
         </div>
         
-        {/* Color Information - completely hidden when hovering */}
-        {!isHovered && (
+        {/* Color Information - show based on responsive logic */}
+        {shouldShowColorInfo && (
           <div className="p-4 space-y-2">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-sm text-foreground leading-tight flex-1">
