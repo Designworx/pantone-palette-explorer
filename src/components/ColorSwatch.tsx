@@ -78,7 +78,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
     <TooltipProvider>
       <Card 
         className={`overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card relative ${
-          isHovered && !colorIsSaved ? 'p-0' : ''
+          isHovered ? 'p-0' : ''
         }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -87,7 +87,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         {/* Color Swatch */}
         <div 
           className={`transition-all duration-300 relative ${
-            isHovered && !colorIsSaved 
+            isHovered 
               ? 'absolute inset-0 z-10 rounded-lg w-full h-full' 
               : 'h-32 w-full'
           }`}
@@ -167,9 +167,11 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             />
           </button>
 
-          {/* Saved indicator */}
+          {/* Saved indicator - slides down on hover */}
           {colorIsSaved && (
-            <div className="absolute bottom-2 left-2">
+            <div className={`absolute left-2 transition-all duration-300 ${
+              isHovered ? 'bottom-2' : 'bottom-2'
+            }`}>
               <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-gray-800">
                 Saved
               </div>
@@ -177,8 +179,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
           )}
         </div>
         
-        {/* Color Information - completely hidden when hovering non-saved colors */}
-        {!(isHovered && !colorIsSaved) && (
+        {/* Color Information - completely hidden when hovering */}
+        {!isHovered && (
           <div className="p-4 space-y-2">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-sm text-foreground leading-tight flex-1">
