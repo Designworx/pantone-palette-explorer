@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -99,7 +100,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         >
           {/* Heart button */}
           <button
-            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 overflow-visible ${
+            className={`absolute top-2 right-2 h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 overflow-visible bg-white rounded-full shadow-sm hover:shadow-md ${
               colorIsSaved 
                 ? 'opacity-100' 
                 : `opacity-100 md:opacity-0 hover:opacity-100 ${isHovered ? 'md:opacity-100' : ''}`
@@ -165,9 +166,8 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
             
             <Heart 
               className={`h-4 w-4 transition-all duration-200 relative z-10 ${
-                colorIsSaved ? 'fill-current scale-110 text-gray-600' : ''
-              }`} 
-              style={{ color: colorIsSaved ? '#4b5563' : textColor }} 
+                colorIsSaved ? 'fill-current scale-110 text-red-500' : 'text-gray-600'
+              }`}
             />
           </button>
 
