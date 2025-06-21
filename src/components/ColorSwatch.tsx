@@ -85,7 +85,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         {/* Color Swatch */}
         <div 
           className={`h-32 w-full relative transition-all duration-300 ${
-            isHovered && !colorIsSaved ? 'scale-110' : ''
+            isHovered && !colorIsSaved ? 'absolute inset-0 z-10' : ''
           }`}
           style={{ backgroundColor: color.HEX }}
         >
