@@ -77,7 +77,9 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
   return (
     <TooltipProvider>
       <Card 
-        className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card relative"
+        className={`overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer bg-card dark:bg-card relative ${
+          isHovered && !colorIsSaved ? 'p-0' : ''
+        }`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleClick}
@@ -86,7 +88,7 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
         <div 
           className={`transition-all duration-300 relative ${
             isHovered && !colorIsSaved 
-              ? 'absolute inset-0 z-10 rounded-lg' 
+              ? 'absolute inset-0 z-10 rounded-lg w-full h-full' 
               : 'h-32 w-full'
           }`}
           style={{ backgroundColor: color.HEX }}
@@ -164,16 +166,6 @@ export const ColorSwatch = ({ color, onClick }: ColorSwatchProps) => {
               style={{ color: colorIsSaved ? '#4b5563' : textColor }} 
             />
           </button>
-
-          {/* Hover overlay for non-saved colors */}
-          {isHovered && !colorIsSaved && (
-            <div 
-              className="absolute inset-0 flex items-center justify-center text-sm font-medium transition-opacity duration-300 bg-black bg-opacity-10"
-              style={{ color: textColor }}
-            >
-              Click for details
-            </div>
-          )}
 
           {/* Saved indicator */}
           {colorIsSaved && (
