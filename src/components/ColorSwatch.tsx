@@ -123,9 +123,7 @@ export const ColorSwatch = ({ color, onClick, allColors = [] }: ColorSwatchProps
           <div className="absolute top-2 right-2 flex gap-1">
             {/* Substrate Preview Button */}
             <HoverCard>
-              <HoverCardT
-
-rigger asChild>
+              <HoverCardTrigger asChild>
                 <button
                   className="h-8 w-8 p-0 transition-all duration-200 flex items-center justify-center z-20 bg-white/80 backdrop-blur-sm rounded-full opacity-0 hover:opacity-100"
                   onClick={(e) => {
